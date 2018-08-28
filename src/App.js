@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import Header from './Components/header/header';
+import MainPage from './Components/pages/MainPage';
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom';
+
+// css
+import './assets/css/default.min.css';
+import './assets/scss/default.scss';
 
 class App extends Component {
   render () {
     return (
-      <div className='App'>
-        <img src={logo} className='App-logo' alt='logo' />
-      </div>
+      <Router>
+        <div className='App'>
+          <Header />
+          <MainPage />
+        </div>
+      </Router>
     );
   }
 }
