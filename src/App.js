@@ -8,7 +8,6 @@ import {
 
 // css
 import './assets/css/default.min.css';
-import './assets/scss/default.scss';
 
 class App extends Component {
   render () {

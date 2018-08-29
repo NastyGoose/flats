@@ -1,4 +1,78 @@
+@import "_config.scss";
+
 body {
-  font-family: sans-serif;
+
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: ghostwhite;
+  font-family: 'Raleway', sans-serif !important;
+
+  header {
+    position: relative;
+    top: 0;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    background: rgba(90, 2, 2, 0.92);
+    color: ghostwhite;
+    @include transition(2s ease-in-out);
+
+    .logo {
+      font-size: xx-large;
+      align-self: center;
+
+      &::selection {
+        color: transparent;
+      }
+
+      a:hover {
+        color: wheat !important;
+        @include transition(0.2s ease-in-out);
+      }
+    }
+
+    .authorizeButton {
+      font-size: xx-large;
+      align-self: center;
+      right: 0;
+      position: absolute;
+      margin-right: 20px;
+      cursor: pointer;
+      @include transition(0.2s ease-in-out);
+
+      &:hover {
+        color: wheat;
+        @include transition(0.2s ease-in-out);
+      }
+    }
+      .cog {
+        font-size: xx-large;
+        align-self: center;
+        left: 0;
+        position: absolute;
+        margin-left: ;: 20px;
+        cursor: pointer;
+        @include transition(0.2s ease-in-out);
+
+        &:hover {
+          color: wheat;
+          @include transition(0.2s ease-in-out);
+        }
+    }
+  }
+
+  .cardsContainer {
+    position: relative;
+    padding: 20px;
+
+    .card-deck {
+      .card {
+        flex: auto;
+        width: 256px;
+        margin-bottom: 20px;
+      }
+    }
+  }
 
 }

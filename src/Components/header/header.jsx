@@ -2,26 +2,24 @@ import React, { PureComponent } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBuilding, faDoorClosed, faDoorOpen, faCog } from '@fortawesome/free-solid-svg-icons';
 
-// component
 class Header extends PureComponent {
   render () {
     return (
       <header>
-        <div className='logo' >
-          <a>LOGO</a>
+        <div className='cog' >
+          <FontAwesomeIcon icon={faCog} />
         </div>
-        <nav>
-          <ul>
-            <li className='first'>
-              <Link to='/'>Home</Link>
-            </li>
-            <li>
-              <Link to='/Products'>Products</Link>
-            </li>
-
-          </ul>
-        </nav>
+        <div className='logo' >
+          <FontAwesomeIcon icon={faBuilding} />
+          <a> flats</a>
+        </div>
+        <div className='authorizeButton'>
+          <FontAwesomeIcon icon={faDoorClosed} />
+        </div>
       </header>
     );
   }
