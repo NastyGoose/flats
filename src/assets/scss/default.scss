@@ -18,12 +18,18 @@ body {
     color: ghostwhite;
     @include transition(2s ease-in-out);
 
-    .logo {
+    .logo, .authorizeButton, .cog {
       font-size: xx-large;
       align-self: center;
 
+      @include transition(0.2s ease-in-out);
+
       &::selection {
         color: transparent;
+      }
+
+      a::selection {
+        color: black;
       }
 
       a:hover {
@@ -33,33 +39,51 @@ body {
     }
 
     .authorizeButton {
-      font-size: xx-large;
-      align-self: center;
       right: 0;
       position: absolute;
       margin-right: 20px;
       cursor: pointer;
-      @include transition(0.2s ease-in-out);
 
       &:hover {
         color: wheat;
         @include transition(0.2s ease-in-out);
       }
     }
-      .cog {
-        font-size: xx-large;
-        align-self: center;
-        left: 0;
-        position: absolute;
-        margin-left: 20px;
-        cursor: pointer;
-        @include transition(0.2s ease-in-out);
 
-        &:hover {
-          color: wheat;
-          @include transition(0.2s ease-in-out);
-        }
+    .cog {
+       left: 0;
+       position: absolute;
+       margin-left: 20px;
+       cursor: pointer;
+
+      &:hover {
+        color: wheat;
+        @include transition(0.2s ease-in-out);
+      }
     }
+  }
+
+  nav {
+    .pagination {
+      justify-content: center;
+    }
+  }
+
+  .settings-active, .settings-disabled {
+    position: relative;
+    height: 200px;
+    background-color: rgb(235, 237, 239);
+    @include transition(1s ease-in-out);
+    h1, p {
+      padding: 10px;
+      position: relative;
+      color: wheat;
+    }
+  }
+
+  .settings-disabled
+   {
+    height: 0;
   }
 
   .cardsContainer {
@@ -69,7 +93,7 @@ body {
     .card-deck {
       .card {
         flex: auto;
-        width: 256px;
+        width: 400px;
         margin-bottom: 20px;
       }
     }

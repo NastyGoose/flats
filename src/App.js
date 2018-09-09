@@ -1,23 +1,32 @@
 import React, { Component } from 'react';
-import Header from './Components/header/header';
-import MainPage from './Components/pages/MainPage';
 import {
-  BrowserRouter as Router,
-  Route
+  BrowserRouter as Router
 } from 'react-router-dom';
+
+// components
+import Header from './Components/header/header.jsx';
+import MainPage from './Components/pages/MainPage.jsx';
 
 // css
 import './assets/css/default.min.css';
 
+// redux
+import { Provider } from 'react-redux';
+import configureStore from './Redux/Reducers/configureStore';
+
+const store = configureStore();
+
 class App extends Component {
   render () {
     return (
-      <Router>
-        <div className='App'>
-          <Header />
-          <MainPage />
-        </div>
-      </Router>
+      <Provider store={store}>
+        <Router>
+          <div className='App'>
+            <Header />
+            <MainPage />
+          </div>
+        </Router>
+      </Provider>
     );
   }
 }
