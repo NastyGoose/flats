@@ -1,12 +1,16 @@
 @import "_config.scss";
 
-body {
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
 
+body {
   margin: 0;
   display: flex;
   flex-direction: column;
   background-color: ghostwhite;
-  font-family: 'Raleway', sans-serif !important;
+  font-family: 'Source Sans Pro', sans-serif !important;
 
   header {
     position: relative;
@@ -17,6 +21,7 @@ body {
     background: rgba(90, 2, 2, 0.92);
     color: ghostwhite;
     @include transition(2s ease-in-out);
+    font-family: 'Raleway', sans-serif !important;
 
     .logo, .authorizeButton, .cog {
       font-size: xx-large;
@@ -28,13 +33,21 @@ body {
         color: transparent;
       }
 
-      a::selection {
-        color: black;
-      }
+      a {
+        color: whitesmoke;
 
-      a:hover {
-        color: wheat !important;
-        @include transition(0.2s ease-in-out);
+        &:visited {
+          color: whitesmoke;
+        }
+
+        &::selection {
+          color: black;
+        }
+
+        &:hover {
+          color: wheat !important;
+          @include transition(0.2s ease-in-out);
+        }
       }
     }
 
@@ -63,6 +76,73 @@ body {
     }
   }
 
+  .registrationForm, .registrationForm-disabled {
+    @include transition(3s ease-in-out);
+
+    .input-group-prepend {
+      order: 1;
+    }
+
+    .input-group {
+      @include transition(3s ease-in-out);
+    }
+    text-align: center;
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    width: 50%;
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .registrationForm-disabled {
+    -webkit-transform: translateX(200%) translateY(15%);
+    -moz-transform: translateX(200%) translateY(15%);
+    -ms-transform: translateX(200%) translateY(15%);
+    -o-transform: translateX(200%) translateY(15%);
+    transform: translateX(200%) translateY(15%);
+  }
+
+  .loginForm, .loginForm-disabled {
+    -webkit-transform: translateY(-125%);
+    -moz-transform: translateY(-125%);
+    -ms-transform: translateY(-125%);
+    -o-transform: translateY(-125%);
+    transform: translateY(-125%);
+
+    @include transition(3s ease-in-out);
+    .input-group {
+      @include transition(3s ease-in-out);
+    }
+    text-align: center;
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    width: 50%;
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .loginForm-disabled {
+    -webkit-transform: translateX(-200%) translateY(-100%);
+    -moz-transform: translateX(-200%) translateY(-100%);
+    -ms-transform: translateX(-200%) translateY(-100%);
+    -o-transform: translateX(-200%) translateY(-100%);
+    transform: translateX(-200%) translateY(-100%);
+  }
+
+
+    .input-group-text {
+      background-color: #ca3838;
+      color: whitesmoke;
+    }
+
   nav {
     .pagination {
       justify-content: center;
@@ -81,14 +161,19 @@ body {
     }
   }
 
-  .settings-disabled
-   {
+  .settings-disabled {
     height: 0;
   }
 
   .cardsContainer {
     position: relative;
     padding: 20px;
+
+    .card-subtitle {
+    font-size: 30px;
+    color: rgba(187, 19, 19, 0.92);
+    margin-bottom: 0.5rem;
+    }
 
     .card-deck {
       .card {

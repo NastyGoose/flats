@@ -4,7 +4,7 @@ import flats from './flatsReducers';
 
 const allReducers = combineReducers({
   actions,
-  flats
+  flats,
 });
 
 export default allReducers;
