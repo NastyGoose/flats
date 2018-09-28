@@ -7,20 +7,20 @@ import {
   faBuilding, faDoorClosed, faDoorOpen, faCog,
 } from '@fortawesome/free-solid-svg-icons';
 import { bindActionCreators } from 'redux';
-import { changeForm, changeState } from '../../Redux/actions/settings.action';
+import { changeState } from '../../Redux/actions/settings.action';
 
 class Header extends PureComponent {
+  onHeaderClick = () => {
+
+  }
   render() {
-    const leftItem = window.location.pathname === '/login'
-      ? <h2 onClick={() => this.props.changeForm('loginForm')}>Login</h2>
-      : (
-        <FontAwesomeIcon
-          icon={faCog}
-          onClick={() => this.props.changeState()}
-        />
-      );
-    const rightItem = window.location.pathname === '/login'
-      ? <h2 onClick={() => this.props.changeForm('registrationForm')}>Sign Up</h2>
+    const rightItem = window.location.pathname !== '/'
+      ? (
+        <h2 onClick={() => }
+        >
+          {window.location.pathname === '/login' ? 'Sign Up' : 'Log In'}
+        </h2>
+      )
       : (
         <a href="login">
           <FontAwesomeIcon
@@ -31,7 +31,10 @@ class Header extends PureComponent {
     return (
       <header>
         <div className="cog">
-          {leftItem}
+          <FontAwesomeIcon
+            icon={faCog}
+            onClick={() => this.props.changeState()}
+          />
         </div>
         <div className="logo">
           <FontAwesomeIcon
@@ -50,7 +53,6 @@ class Header extends PureComponent {
 function mapDispatchToProps(dispatch) {
   return {
     changeState: bindActionCreators(changeState, dispatch),
-    changeForm: bindActionCreators(changeForm, dispatch),
   };
 }
 

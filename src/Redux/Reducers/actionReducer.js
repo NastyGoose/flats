@@ -1,9 +1,8 @@
-import { SHOW_SETTINGS, PAGE_INDEX, SIGN_FORM } from './settings.action';
+import { SHOW_SETTINGS, PAGE_INDEX } from '../actions/settings.action';
 
 const initialState = {
   showSettings: false,
   pageIndex: 0,
-  signForm: 'loginForm',
 };
 
 export default (state = initialState, action) => {
@@ -17,11 +16,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         pageIndex: action.payload,
-      };
-    case SIGN_FORM:
-      return {
-        ...state,
-        signForm: action.payload,
       };
     default:
       return state;

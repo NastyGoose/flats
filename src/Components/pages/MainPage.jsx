@@ -35,7 +35,7 @@ class MainPage extends PureComponent {
     const pages = [];
     const flatQuantity = props.flats.length;
     // minus one/none cause of "<=" in for operator
-    pagesQuantity = (flatQuantity % 12 === 0) ? Math.floor(flatQuantity / 12) - 1 : Math.floor(flatQuantity / 12);
+    pagesQuantity = (flatQuantity % 20 === 0) ? Math.floor(flatQuantity / 20) - 1 : Math.floor(flatQuantity / 20);
     let startIndex;
     let endIndex;
     if (this.props.index > pagesQuantity - 2) startIndex = pagesQuantity - 4;
@@ -62,8 +62,8 @@ class MainPage extends PureComponent {
 
   get Flats() {
     const flats = [];
-    const startIndex = this.props.index * 12;
-    const endIndex = startIndex + 12;
+    const startIndex = this.props.index * 20;
+    const endIndex = startIndex + 20;
 
     if (this.props.flats.length > 1) {
       for (let i = startIndex; i < endIndex; i++) {
@@ -72,8 +72,9 @@ class MainPage extends PureComponent {
             <Card key={this.props.flats[i].id}>
               <CardImg
                 top
+                height="400px"
                 width="100%"
-                src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=180"
+                src={this.props.flats[i].Photo}
                 alt="Card image cap"
               />
               <CardBody>
@@ -88,9 +89,7 @@ class MainPage extends PureComponent {
                   {' '}
                 </CardSubtitle>
                 <CardText>
-                This is a wider card with supporting text below
-                as a natural lead-in to additional content.
-                This content is a little bit longer.
+                  { this.props.flats[i].Description }
                 </CardText>
                 <Button> Button </Button>
               </CardBody>

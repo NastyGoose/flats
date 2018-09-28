@@ -76,7 +76,7 @@ body {
     }
   }
 
-  .registrationForm, .registrationForm-disabled {
+  .registrationForm {
     @include transition(3s ease-in-out);
 
     .input-group-prepend {
@@ -98,22 +98,9 @@ body {
     margin-right: auto;
   }
 
-  .registrationForm-disabled {
-    -webkit-transform: translateX(200%) translateY(15%);
-    -moz-transform: translateX(200%) translateY(15%);
-    -ms-transform: translateX(200%) translateY(15%);
-    -o-transform: translateX(200%) translateY(15%);
-    transform: translateX(200%) translateY(15%);
-  }
-
-  .loginForm, .loginForm-disabled {
-    -webkit-transform: translateY(-125%);
-    -moz-transform: translateY(-125%);
-    -ms-transform: translateY(-125%);
-    -o-transform: translateY(-125%);
-    transform: translateY(-125%);
-
+  .loginForm {
     @include transition(3s ease-in-out);
+
     .input-group {
       @include transition(3s ease-in-out);
     }
@@ -129,19 +116,10 @@ body {
     margin-right: auto;
   }
 
-  .loginForm-disabled {
-    -webkit-transform: translateX(-200%) translateY(-100%);
-    -moz-transform: translateX(-200%) translateY(-100%);
-    -ms-transform: translateX(-200%) translateY(-100%);
-    -o-transform: translateX(-200%) translateY(-100%);
-    transform: translateX(-200%) translateY(-100%);
+  .input-group-text {
+    background-color: #ca3838;
+    color: whitesmoke;
   }
-
-
-    .input-group-text {
-      background-color: #ca3838;
-      color: whitesmoke;
-    }
 
   nav {
     .pagination {
