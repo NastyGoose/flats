@@ -1,13 +1,14 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import {GET_FLATS, getFlats} from '../actions/flats.actions';
-import axios from 'axios';
+import { GET_FLATS } from '../actions/flats.actions';
+import API from '../../Components/API/API';
 
+export const FETCH_SUCCEEDED = 'FETCH_SUCCEEDED';
+export const FETCH_FAILED = 'FETCH_FAILED';
 
-
-export function* fetchData(action) {
+export function* fetchData() {
   try {
-    const data = yield call(getFlats);
-    yield put({ type: 'FETCH_SUCCEEDED', data });
+    const payload = yield call(API.getFlats);
+    yield put({ type: 'FETCH_SUCCEEDED', payload });
   } catch (error) {
     yield put({ type: 'FETCH_FAILED', error });
   }

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
-import setAuthorizationToken from '../../Components/utils/setAuthorizationToken';
+import setAuthorizationToken from '../../Components/API/setAuthorizationToken';
 
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 

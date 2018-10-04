@@ -14,7 +14,7 @@ let pagesQuantity;
 
 class MainPage extends PureComponent {
   componentDidMount() {
-    this.props.getFlats('Newest');
+    this.props.getFlats();
   }
 
   get Pages() {
@@ -149,6 +149,7 @@ function mapDispatchToProps(dispatch) {
 
 MainPage.propTypes = {
   showSettings: PropTypes.bool.isRequired,
+  changePage: PropTypes.func.isRequired,
   getFlats: PropTypes.func.isRequired,
   flats: PropTypes.arrayOf(PropTypes.shape({
     address: PropTypes.string,

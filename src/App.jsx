@@ -14,7 +14,7 @@ import configureStore from './Redux/Reducers/configureStore';
 import { setCurrentUser } from './Redux/actions/auth.actions';
 
 // components
-import Header from './Components/header/header';
+import Header from './Components/header/Header';
 import MainPage from './Components/pages/MainPage';
 import LoginPage from './Components/pages/LoginPage';
 import RegisterPage from './Components/pages/RegisterPage';
@@ -23,7 +23,7 @@ import RegisterPage from './Components/pages/RegisterPage';
 import './assets/css/default.min.css';
 
 // utilScripts
-import setAuthorizationToken from './Components/utils/setAuthorizationToken';
+import setAuthorizationToken from './Components/API/setAuthorizationToken';
 
 const store = configureStore();
 

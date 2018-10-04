@@ -1,10 +1,12 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import saga from 'redux-saga';
+import createSagaMiddleware from 'redux-saga';
 import rootReducer from './rootReducer';
+import { watchGetFlats } from '../sagas/getFlats.saga';
 
 export default function configureStore(initialState) {
-  const middleware = [thunk];
+  const sagaMiddleware = createSagaMiddleware();
+  const middleware = [thunk, sagaMiddleware];
 
   const store = createStore(rootReducer, initialState, compose(
     applyMiddleware(...middleware),
@@ -17,6 +19,8 @@ export default function configureStore(initialState) {
       store.replaceReducer(nextRootReducer);
     });
   }
+
+  sagaMiddleware.run(watchGetFlats);
 
   return store;
 }
