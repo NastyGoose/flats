@@ -1,5 +1,5 @@
 import { GET_FLATS } from '../actions/flats.actions';
-let initialState = [];
+const initialState = [];
 
 export default (state = initialState, action) => {
   switch (action.type) {

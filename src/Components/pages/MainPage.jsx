@@ -14,20 +14,7 @@ let pagesQuantity;
 
 class MainPage extends PureComponent {
   componentDidMount() {
-    this.props.getFlats();
-  }
-
-  scrollToTop() {
-    const scrollAnimation = { scrollTop: document.body.scrollHeight };
-    const scrollTop = 0;
-
-    TweenLite.to(scrollAnimation, 1, {
-      scrollTop,
-      ease: Power2.easeInOut,
-      onUpdate: () => {
-        window.scrollTo(0, scrollAnimation.scrollTop);
-      },
-    });
+    this.props.getFlats('Newest');
   }
 
   get Pages() {
@@ -99,6 +86,19 @@ class MainPage extends PureComponent {
       }
     }
     return flats;
+  }
+
+  scrollToTop() {
+    const scrollAnimation = { scrollTop: document.body.scrollHeight };
+    const scrollTop = 0;
+
+    TweenLite.to(scrollAnimation, 1, {
+      scrollTop,
+      ease: Power2.easeInOut,
+      onUpdate: () => {
+        window.scrollTo(0, scrollAnimation.scrollTop);
+      },
+    });
   }
 
   render() {

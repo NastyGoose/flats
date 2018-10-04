@@ -5,16 +5,15 @@ import {
   Button, InputGroup, InputGroupAddon, Input,
 } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { signIn } from '../../Redux/actions/authActions';
+import { signIn } from '../../Redux/actions/auth.actions';
 
 class LoginPage extends PureComponent {
     handleSubmit = (e) => {
+      e.preventDefault();
       const form = e.target;
       const password = form.elements.password.value;
       const email = form.elements.email.value;
       this.props.signIn(email, password);
-      e.preventDefault();
-      window.location.href = 'http://localhost:3000/';
     };
 
     render() {

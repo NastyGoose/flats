@@ -11,7 +11,7 @@ import jwt from 'jsonwebtoken';
 // redux
 import { Provider } from 'react-redux';
 import configureStore from './Redux/Reducers/configureStore';
-import { setCurrentUser } from './Redux/actions/authActions';
+import { setCurrentUser } from './Redux/actions/auth.actions';
 
 // components
 import Header from './Components/header/header';
@@ -38,7 +38,9 @@ class App extends PureComponent {
       <Provider store={store}>
         <Router>
           <div className="App">
-            <Header />
+            <Route
+              component={Header}
+            />
             <Switch>
               <Route
                 exact

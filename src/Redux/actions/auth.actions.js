@@ -18,10 +18,15 @@ export const signIn = (email, password) => (dispatch) => {
   })
     .then((response) => {
       console.log(response);
-      const token = response.data.token;
-      localStorage.setItem('jwtToken', token);
-      setAuthorizationToken(token);
-      dispatch(setCurrentUser(jwt.decode(token)));
+      if (response.data.success) {
+        const token = response.data.token;
+        localStorage.setItem('jwtToken', token);
+        setAuthorizationToken(token);
+        dispatch(setCurrentUser(jwt.decode(token)));
+        window.location.href = 'http://localhost:3000/';
+      } else {
+        alert('Wrong password or email!');
+      }
     })
     .catch((error) => {
       console.log(error);
@@ -36,15 +41,18 @@ export const signUp = (login, email, password) => (dispatch) => {
   })
     .then((response) => {
       console.log(response);
-      signIn(email, password);
+      if (response.data.success) {
+        dispatch(signIn(email, password));
+      }
     })
     .catch((error) => {
       console.log(error);
     });
 };
 
-export const logout = () => (dispatch) => {
+export const logout = () => () => {
   const url = `http://localhost:8080/api/account/logout?token=${localStorage.jwtToken}`;
+  localStorage.removeItem('jwtToken');
   axios.get(url)
     .then((response) => {
       console.log(response);

@@ -5,10 +5,11 @@ import {
   Button, InputGroup, InputGroupAddon, Input,
 } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { signUp } from '../../Redux/actions/authActions';
+import { signUp } from '../../Redux/actions/auth.actions';
 
 class RegisterPage extends PureComponent {
   handleSubmit = (e) => {
+    e.preventDefault();
     const form = e.target;
     const data = new FormData(form);
     let email;
@@ -34,12 +35,9 @@ class RegisterPage extends PureComponent {
           break;
       }
     }
-
     if (confirmPassword === password) {
       this.props.signUp(login, email, password);
     } else alert('Wrong password confirmation!');
-    e.preventDefault();
-    window.location.href = 'http://localhost:3000/';
   };
 
   render() {

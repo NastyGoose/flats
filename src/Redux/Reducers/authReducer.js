@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER } from '../actions/authActions';
+import { SET_CURRENT_USER } from '../actions/auth.actions';
 import lodash from 'lodash';
 
 const initialState = {
