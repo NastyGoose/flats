@@ -1,61 +1,35 @@
-import axios from 'axios';
-import jwt from 'jsonwebtoken';
-import setAuthorizationToken from '../../Components/API/setAuthorizationToken';
-
+export const SIGN_IN = 'SIGN_IN';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const SIGN_UP = 'SIGN_UP';
+export const LOGOUT = 'LOGOUT';
 
-export function setCurrentUser(user) {
+export function setCurrentUser(decodedToken) {
   return {
     type: SET_CURRENT_USER,
-    user,
+    decodedToken,
   };
 }
 
-export const signIn = (email, password) => (dispatch) => {
-  axios.post('http://localhost:8080/api/account/signin', {
+export function signIn(email, password) {
+  console.log('dispatched');
+  return {
+    type: SIGN_IN,
     email,
     password,
-  })
-    .then((response) => {
-      console.log(response);
-      if (response.data.success) {
-        const token = response.data.token;
-        localStorage.setItem('jwtToken', token);
-        setAuthorizationToken(token);
-        dispatch(setCurrentUser(jwt.decode(token)));
-        window.location.href = 'http://localhost:3000/';
-      } else {
-        alert('Wrong password or email!');
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
+  };
+}
 
-export const signUp = (login, email, password) => (dispatch) => {
-  axios.post('http://localhost:8080/api/account/signup', {
+export function signUp(login, email, password) {
+  return {
+    type: SIGN_UP,
+    email,
     login,
-    email,
     password,
-  })
-    .then((response) => {
-      console.log(response);
-      if (response.data.success) {
-        dispatch(signIn(email, password));
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
+  };
+}
 
-export const logout = () => () => {
-  const url = `http://localhost:8080/api/account/logout?token=${localStorage.jwtToken}`;
-  localStorage.removeItem('jwtToken');
-  axios.get(url)
-    .then((response) => {
-      console.log(response);
-    })
-    .catch(err => console.log(err));
-};
+export function logout() {
+  return {
+    type: LOGOUT,
+  };
+}

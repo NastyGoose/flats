@@ -1,24 +1,23 @@
-/* eslint-disable jsx-a11y/label-has-associated-control,import/no-extraneous-dependencies,react/destructuring-assignment */
+// react/react-router
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+
+// fontawesome icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faBuilding, faDoorClosed, faDoorOpen, faCog,
+  faBuilding, faDoorClosed, faDoorOpen, faUser,
 } from '@fortawesome/free-solid-svg-icons';
+
+import PropTypes from 'prop-types';
+
+// redux stuff
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { changeState } from '../../Redux/actions/settings.action';
 import { logout } from '../../Redux/actions/auth.actions';
 
 class Header extends PureComponent {
   static propTypes = {
     location: PropTypes.object.isRequired,
-  };
-
-  handleLogout = () => {
-    this.props.logout();
-    window.location.reload();
   };
 
   get rightItem() {
@@ -68,13 +67,17 @@ class Header extends PureComponent {
     return null;
   }
 
+  handleLogout = () => {
+    this.props.logout();
+    window.location.reload();
+  };
+
   render() {
     return (
       <header>
         <div className="cog">
           <FontAwesomeIcon
-            icon={faCog}
-            onClick={() => this.props.changeState()}
+            icon={faUser}
           />
         </div>
         <div className="logo">
@@ -104,7 +107,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeState: bindActionCreators(changeState, dispatch),
     logout: bindActionCreators(logout, dispatch),
   };
 }

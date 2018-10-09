@@ -23,7 +23,7 @@ import RegisterPage from './Components/pages/RegisterPage';
 import './assets/css/default.min.css';
 
 // utilScripts
-import setAuthorizationToken from './Components/API/setAuthorizationToken';
+import setAuthorizationToken from './Components/utilitaryLogic/setAuthorizationToken';
 
 const store = configureStore();
 

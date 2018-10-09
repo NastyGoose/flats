@@ -1,35 +1,39 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
+
+// reactstrap and animations
+import { Power2, TweenLite } from 'gsap';
 import {
   Card, Button, CardImg, CardTitle, CardText, CardDeck,
   CardSubtitle, CardBody, Pagination, PaginationItem, PaginationLink,
 } from 'reactstrap';
-import PropTypes from 'prop-types';
-import { Power2, TweenLite } from 'gsap';
+
+// redux stuff
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import Loader from './loader';
 import { getFlats } from '../../Redux/actions/flats.actions';
 import { changePage } from '../../Redux/actions/settings.action';
+
+import Settings from '../header/Settings';
 
 let pagesQuantity;
 
 class MainPage extends PureComponent {
-  componentDidMount() {
-    this.props.getFlats();
+  componentWillMount() {
+    console.log('pathname: ', window.location.pathname);
+    const filter = {
+      sort: 'Price',
+      order: -1,
+    };
+    const chunksSize = 20;
+    const page = 0;
+    this.props.getFlats(filter, chunksSize, page);
   }
 
   get Pages() {
-    const { props } = this;
     const pages = [];
-    const flatQuantity = props.flats.length;
-    // minus one/none cause of "<=" in for operator
-    pagesQuantity = (flatQuantity % 20 === 0) ? Math.floor(flatQuantity / 20) - 1 : Math.floor(flatQuantity / 20);
-    let startIndex;
-    let endIndex;
-    if (this.props.index > pagesQuantity - 2) startIndex = pagesQuantity - 4;
-    else startIndex = (this.props.index >= 2) ? this.props.index - 2 : 0;
-    if (this.props.index < 2) endIndex = 4;
-    else endIndex = (this.props.index < pagesQuantity - 2) ? this.props.index + 2 : pagesQuantity;
-    for (let i = startIndex; i <= endIndex; i++) {
+    for (let i = this.props.pagesIndexes.startIndex; i <= this.props.pagesIndexes.endIndex; i++) {
       pages[i] = (
         <PaginationItem active={i === this.props.index}>
           <PaginationLink
@@ -47,48 +51,45 @@ class MainPage extends PureComponent {
     return pages;
   }
 
-  get Flats() {
-    const flats = [];
-    const startIndex = this.props.index * 20;
-    const endIndex = startIndex + 20;
 
-    if (this.props.flats.length > 1) {
-      for (let i = startIndex; i < endIndex; i++) {
-        if (this.props.flats[i]) {
-          flats[i] = (
-            <Card key={this.props.flats[i].id}>
-              <CardImg
-                top
-                height="400px"
-                width="100%"
-                src={this.props.flats[i].Photo}
-                alt="Card image cap"
-              />
-              <CardBody>
-                <CardTitle>
-                  {' '}
-                  { this.props.flats[i].Address }
-                  {' '}
-                </CardTitle>
-                <CardSubtitle>
-                  {' '}
-                  { this.props.flats[i].Price }
-                  {' '}
-                </CardSubtitle>
-                <CardText>
-                  { this.props.flats[i].Description }
-                </CardText>
-                <Button> Button </Button>
-              </CardBody>
-            </Card>
-          );
-        }
-      }
+  get Flats() {
+    console.log('flats: ', this.props.flats);
+    if (this.props.flats.flatsList.length > 0) {
+      return this.props.flats.flatsList[this.props.index].map(curr => (
+        <Card key={curr.id}>
+          <CardImg
+            top
+            height="400px"
+            width="100%"
+            src={curr.Photo}
+            alt="Card image cap"
+          />
+          <CardBody>
+            <CardTitle>
+              {' '}
+              {curr.Address}
+              {' '}
+            </CardTitle>
+            <CardSubtitle>
+              {' '}
+              {curr.Price}
+              {' '}
+              USD
+              {' '}
+            </CardSubtitle>
+            <CardText>
+              {curr.Description}
+            </CardText>
+            <Button> Button </Button>
+          </CardBody>
+        </Card>
+      ));
     }
-    return flats;
+    return <Loader />;
   }
 
-  scrollToTop() {
+
+  scrollToTop = () => {
     const scrollAnimation = { scrollTop: document.body.scrollHeight };
     const scrollTop = 0;
 
@@ -99,12 +100,12 @@ class MainPage extends PureComponent {
         window.scrollTo(0, scrollAnimation.scrollTop);
       },
     });
-  }
+  };
 
   render() {
     return (
       <div className="mainPageWrapper">
-        <div className={this.props.showSettings ? 'settings-active' : 'settings-disabled'} />
+        <Settings />
         <div className="cardsContainer">
           <CardDeck>
             { this.Flats }
@@ -137,6 +138,7 @@ function mapStateToProps(state) {
     showSettings: state.actions.showSettings,
     flats: state.flats,
     index: state.actions.pageIndex,
+    pagesIndexes: state.flats.pages,
   };
 }
 
@@ -148,13 +150,16 @@ function mapDispatchToProps(dispatch) {
 }
 
 MainPage.propTypes = {
-  showSettings: PropTypes.bool.isRequired,
   changePage: PropTypes.func.isRequired,
   getFlats: PropTypes.func.isRequired,
   flats: PropTypes.arrayOf(PropTypes.shape({
     address: PropTypes.string,
   })).isRequired,
   index: PropTypes.number.isRequired,
+  pagesIndexes: PropTypes.shape({
+    startIndex: PropTypes.number,
+    endIndex: PropTypes.number,
+  }),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

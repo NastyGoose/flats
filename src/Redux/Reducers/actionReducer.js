@@ -1,17 +1,15 @@
-import { SHOW_SETTINGS, PAGE_INDEX } from '../actions/settings.action';
+import { PAGE_INDEX } from '../actions/settings.action';
+import { FILTER_CHANGED } from '../actions/settings.action';
 
 const initialState = {
-  showSettings: false,
   pageIndex: 0,
+  sortBy: '',
+  orderBy: null,
+  chunksSize: 20,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SHOW_SETTINGS:
-      return {
-        ...state,
-        showSettings: !state.showSettings,
-      };
     case PAGE_INDEX:
       return {
         ...state,

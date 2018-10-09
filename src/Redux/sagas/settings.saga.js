@@ -5,16 +5,15 @@ import API from '../../Components/API/API';
 export const FETCH_SUCCEEDED = 'FETCH_SUCCEEDED';
 export const FETCH_FAILED = 'FETCH_FAILED';
 
-export function* fetchData(action) {
+export function* changePageAsync(action) {
   try {
     const payload = yield call(API.getFlats, action.payload);
-    yield put({ type: 'FETCH_SUCCEEDED', payload });
-    yield put({ type: 'FILTER_CHANGED', payload: action.payload });
+    yield put({ type: 'GET_FLATS', payload: action.payload });
   } catch (error) {
     yield put({ type: 'FETCH_FAILED', error });
   }
 }
 
-export function* watchGetFlats() {
-  yield takeEvery(GET_FLATS, fetchData);
+export function* watchChangePage() {
+  yield takeEvery('PAGE_INDEX', changePageAsync);
 }

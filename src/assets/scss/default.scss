@@ -68,7 +68,6 @@ body {
        position: absolute;
        margin-left: 20px;
        cursor: pointer;
-
       &:hover {
         color: wheat;
         @include transition(0.2s ease-in-out);
@@ -143,6 +142,7 @@ body {
     height: 0;
   }
 
+
   .cardsContainer {
     position: relative;
     padding: 20px;
@@ -154,11 +154,27 @@ body {
     }
 
     .card-deck {
+      min-height: 500px;
       .card {
         flex: auto;
         width: 400px;
         margin-bottom: 20px;
       }
+    }
+  }
+
+  .MuiSlider-track-130 {
+    background-color: grey;
+  }
+
+  .MuiSlider-thumb-133 {
+    background-color: whitesmoke;
+    border: 1.5px solid indianred;
+    &.MuiSlider-activated-139 {
+        box-shadow: 0 0 0 18px rgba(234, 64, 98, 0.16);
+    }
+    &:hover {
+      box-shadow: 0 0 0 9px rgba(234, 64, 98, 0.16);
     }
   }
 

@@ -1,9 +1,10 @@
-export const SHOW_SETTINGS = 'SHOW_SETTINGS';
+export const FILTER_CHANGED = 'FILTER_CHANGED';
 export const PAGE_INDEX = 'PAGE_INDEX';
 
-export const changeState = () => (dispatch) => {
+export const changeFilter = payload => (dispatch) => {
   dispatch({
-    type: 'SHOW_SETTINGS',
+    type: 'FILTER_CHANGED',
+    payload,
   });
 };
 
