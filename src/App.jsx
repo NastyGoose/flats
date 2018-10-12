@@ -5,12 +5,11 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
-
+import { withCookies } from 'react-cookie';
 import jwt from 'jsonwebtoken';
 
 // redux
-import { Provider } from 'react-redux';
-import configureStore from './Redux/Reducers/configureStore';
+
 import { setCurrentUser } from './Redux/actions/auth.actions';
 
 // components
@@ -18,49 +17,51 @@ import Header from './Components/header/Header';
 import MainPage from './Components/pages/MainPage';
 import LoginPage from './Components/pages/LoginPage';
 import RegisterPage from './Components/pages/RegisterPage';
+import UserPage from './Components/pages/UserPage';
 
 // css
 import './assets/css/default.min.css';
 
 // utilScripts
 import setAuthorizationToken from './Components/utilitaryLogic/setAuthorizationToken';
-
-const store = configureStore();
-
-if (localStorage.jwtToken) {
-  setAuthorizationToken(localStorage.jwtToken);
-  store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)));
-}
+import configureStore from './Redux/Reducers/configureStore';
 
 class App extends PureComponent {
   render() {
     return (
-      <Provider store={store}>
-        <Router>
-          <div className="App">
-            <Route
-              component={Header}
-            />
-            <Switch>
+          <Router>
+            <div className="App">
               <Route
-                exact
-                path="/"
-                component={MainPage}
+                component={Header}
               />
-              <Route
-                path="/login"
-                component={LoginPage}
-              />
-              <Route
-                path="/register"
-                component={RegisterPage}
-              />
-            </Switch>
-          </div>
-        </Router>
-      </Provider>
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={() => (<MainPage cookies={this.props.cookies} />)}
+                  something="foo"
+                />
+                <Route
+                  path="/page=*"
+                  render={() => (<MainPage cookies={this.props.cookies} />)}
+                />
+                <Route
+                  path="/userpage"
+                  render={() => (<UserPage cookies={this.props.cookies} />)}
+                />
+                <Route
+                  path="/login"
+                  component={LoginPage}
+                />
+                <Route
+                  path="/register"
+                  component={RegisterPage}
+                />
+              </Switch>
+            </div>
+          </Router>
     );
   }
 }
 
-export default App;
+export default withCookies(App);

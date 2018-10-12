@@ -1,5 +1,5 @@
 import { PAGE_INDEX } from '../actions/settings.action';
-import { FILTER_CHANGED } from '../actions/settings.action';
+import { CHANGE_FILTER_VALUES } from '../sagas/settings.saga';
 
 const initialState = {
   pageIndex: 0,
@@ -10,6 +10,13 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case CHANGE_FILTER_VALUES:
+      return {
+        ...state,
+        sortBy: action.payload.sort,
+        orderBy: action.payload.order,
+        chunksSize: action.payload.chunksSize,
+      };
     case PAGE_INDEX:
       return {
         ...state,

@@ -1,8 +1,6 @@
 import lodash from 'lodash';
 import {
-  SIGN_IN_SUCCEEDED, SIGN_IN_FAILED,
-  SIGN_UP_SUCCEEDED, SIGN_UP_FAILED,
-  LOGOUT_SUCCEEDED, LOGOUT_FAILED,
+  SIGN_IN_SUCCEEDED, LOGOUT_SUCCEEDED, SUCCESSFULLY_CHANGED_DATA,
 } from '../sagas/auth.saga';
 
 const initialState = {
@@ -14,26 +12,24 @@ const initialState = {
 export default (state = initialState, action = {}) => {
   switch (action.type) {
     case SIGN_IN_SUCCEEDED:
+      console.log('in reducer: ', action);
       return {
-        isAuthenticated: !lodash.isEmpty(action.decodedToken),
-        user: action.decodedToken,
+        ...state,
+        isAuthenticated: !lodash.isEmpty(action.payload.decodedToken),
+        user: action.payload.decodedToken,
+        favoriteFlats: action.payload.favoriteFlats,
       };
-    case SIGN_IN_FAILED:
+    case SUCCESSFULLY_CHANGED_DATA:
+      console.log('in reducer: ', action);
       return {
-        errors: action.error,
+        ...state,
+        user: action.newToken,
       };
     case LOGOUT_SUCCEEDED:
       return {
+        ...state,
         isAuthenticated: false,
         user: null,
-      };
-    case LOGOUT_FAILED:
-      return {
-        errors: action.error,
-      };
-    case SIGN_UP_FAILED:
-      return {
-        errors: action.error,
       };
     default: return state;
   }

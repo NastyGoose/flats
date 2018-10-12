@@ -19,6 +19,7 @@ import Slider from '@material-ui/lab/Slider';
 import { bindActionCreators } from 'redux';
 import connect from 'react-redux/es/connect/connect';
 import { getFlats } from '../../Redux/actions/flats.actions';
+import { changeFilter } from '../../Redux/actions/settings.action';
 
 const styles = theme => ({
   slider: {
@@ -81,10 +82,11 @@ class Settings extends React.Component {
     const filter = {
       sort: this.state.sortBy,
       order: this.state.orderBy,
+      chunksSize: this.state.chunksSize,
     };
-    const chunksSize = this.state.chunksSize;
-    const page = this.props.index;
-    this.props.getFlats(filter, chunksSize, page);
+    // const page = this.props.index;
+    this.props.changeFilter(filter, this.props.index);
+    // this.props.getFlats(filter, chunksSize, page);
     // window.location.reload();
   };
 
@@ -182,12 +184,14 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    changeFilter: bindActionCreators(changeFilter, dispatch),
     getFlats: bindActionCreators(getFlats, dispatch),
   };
 }
 
 Settings.propTypes = {
   getFlats: PropTypes.func.isRequired,
+  changeFilter: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
 };

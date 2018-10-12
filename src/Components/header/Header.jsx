@@ -43,7 +43,7 @@ class Header extends PureComponent {
             </Link>
           </h2>
         );
-      case '/':
+      default:
         if (this.props.isAuthenticated) {
           return (
             <FontAwesomeIcon
@@ -61,10 +61,7 @@ class Header extends PureComponent {
             />
           </Link>
         );
-      default:
-        break;
     }
-    return null;
   }
 
   handleLogout = () => {
@@ -75,10 +72,12 @@ class Header extends PureComponent {
   render() {
     return (
       <header>
-        <div className="cog">
-          <FontAwesomeIcon
-            icon={faUser}
-          />
+        <div className="userCab">
+          <a href="/userpage">
+            <FontAwesomeIcon
+              icon={faUser}
+            />
+          </a>
         </div>
         <div className="logo">
           <FontAwesomeIcon
@@ -112,7 +111,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 Header.propTypes = {
-  changeState: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
 };

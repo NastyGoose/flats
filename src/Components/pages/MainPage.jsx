@@ -1,61 +1,80 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { instanceOf } from 'prop-types';
+import { Link } from 'react-router-dom';
+import { Cookies } from 'react-cookie';
 
-// reactstrap and animations
+// reactstrap, material-ui and animations
 import { Power2, TweenLite } from 'gsap';
+import lodash from 'lodash';
 import {
   Card, Button, CardImg, CardTitle, CardText, CardDeck,
   CardSubtitle, CardBody, Pagination, PaginationItem, PaginationLink,
 } from 'reactstrap';
+import Icon from '@mdi/react';
+import { mdiHeartOutline, mdiHeart } from '@mdi/js';
 
 // redux stuff
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Loader from './loader';
-import { getFlats } from '../../Redux/actions/flats.actions';
+import Loader from '../utilitaryComponents/loader';
+import { removeFavorite, getFlats, addFavorite } from '../../Redux/actions/flats.actions';
 import { changePage } from '../../Redux/actions/settings.action';
 
 import Settings from '../header/Settings';
 
 let pagesQuantity;
+const hour = 3600;
 
 class MainPage extends PureComponent {
+  state = {
+    page: 0,
+  };
+
   componentWillMount() {
-    console.log('pathname: ', window.location.pathname);
     const filter = {
       sort: 'Price',
       order: -1,
+      chunksSize: 20,
     };
-    const chunksSize = 20;
-    const page = 0;
-    this.props.getFlats(filter, chunksSize, page);
+    this.state.page = parseInt(lodash.takeRightWhile(window.location.pathname, curr => curr !== '=').join(''), 10);
+    if (!this.state.page) this.state.page = 0;
+    this.props.getFlats(filter, this.state.page);
   }
 
   get Pages() {
     const pages = [];
+    this.state.page = parseInt(lodash.takeRightWhile(window.location.pathname, curr => curr !== '=').join(''), 10);
     for (let i = this.props.pagesIndexes.startIndex; i <= this.props.pagesIndexes.endIndex; i++) {
       pages[i] = (
-        <PaginationItem active={i === this.props.index}>
-          <PaginationLink
-            onClick={() => {
-              this.scrollToTop();
-              this.props.changePage(i);
-            }
+        <PaginationItem active={i === this.state.page - 1}>
+          <Link to={`/page=${i + 1}`}>
+            <PaginationLink
+              onClick={() => {
+                this.scrollToTop();
+                this.props.changePage(i, {
+                  orderBy: this.props.orderBy,
+                  sortBy: this.props.sortBy,
+                  chunksSize: this.props.chunksSize,
+                });
+              }
           }
-          >
-            {i + 1}
-          </PaginationLink>
+            >
+              {i + 1}
+            </PaginationLink>
+          </Link>
         </PaginationItem>
       );
     }
     return pages;
   }
 
-
   get Flats() {
-    console.log('flats: ', this.props.flats);
     if (this.props.flats.flatsList.length > 0) {
-      return this.props.flats.flatsList[this.props.index].map(curr => (
+      let idArr = [];
+      if (this.props.favoriteFlats) {
+        idArr = this.props.favoriteFlats.map(curr => curr._id);
+      }
+      return this.props.flats.flatsList.map(curr => (
         <Card key={curr.id}>
           <CardImg
             top
@@ -80,7 +99,16 @@ class MainPage extends PureComponent {
             <CardText>
               {curr.Description}
             </CardText>
-            <Button> Button </Button>
+            <Button onClick={() => this.handleLearnClick(curr._id)} target="_blank" href={curr.URL}> Learn more! </Button>
+            <Icon
+              onClick={() => this.handleLikeClick(curr._id)}
+              className="favoriteBtn"
+              path={idArr.includes(curr._id) ? mdiHeart : mdiHeartOutline}
+              size={1}
+              horizontal
+              vertical
+              color="red"
+            />
           </CardBody>
         </Card>
       ));
@@ -88,6 +116,27 @@ class MainPage extends PureComponent {
     return <Loader />;
   }
 
+  handleLikeClick = (id) => {
+    if (localStorage.jwtToken) {
+      const idArr = this.props.favoriteFlats.map(curr => curr._id);
+      console.log(idArr);
+      if (!idArr.includes(id)) {
+        this.props.addFavorite(id);
+      } else {
+        this.props.removeFavorite(id);
+      }
+    }
+  };
+
+  handleLearnClick = (id) => {
+    const { cookies } = this.props;
+    const recentURLs = cookies.get('recentIDs') ? cookies.get('recentIDs') : [];
+    if (!recentURLs.includes(id)) {
+      recentURLs.push(id);
+      const jsonArr = JSON.stringify(recentURLs);
+      cookies.set('recentIDs', jsonArr, { path: '/', maxAge: hour * 24 });
+    }
+  };
 
   scrollToTop = () => {
     const scrollAnimation = { scrollTop: document.body.scrollHeight };
@@ -135,7 +184,10 @@ class MainPage extends PureComponent {
 
 function mapStateToProps(state) {
   return {
-    showSettings: state.actions.showSettings,
+    favoriteFlats: state.auth.favoriteFlats,
+    orderBy: state.actions.orderBy,
+    sortBy: state.actions.sortBy,
+    chunksSize: state.actions.chunksSize,
     flats: state.flats,
     index: state.actions.pageIndex,
     pagesIndexes: state.flats.pages,
@@ -146,16 +198,25 @@ function mapDispatchToProps(dispatch) {
   return {
     getFlats: bindActionCreators(getFlats, dispatch),
     changePage: bindActionCreators(changePage, dispatch),
+    addFavorite: bindActionCreators(addFavorite, dispatch),
+    removeFavorite: bindActionCreators(removeFavorite, dispatch),
   };
 }
 
 MainPage.propTypes = {
+  cookies: instanceOf(Cookies).isRequired,
+  favoriteFlats: PropTypes.array.isRequired,
   changePage: PropTypes.func.isRequired,
+  addFavorite: PropTypes.func.isRequired,
+  removeFavorite: PropTypes.func.isRequired,
   getFlats: PropTypes.func.isRequired,
+  orderBy: PropTypes.number.isRequired,
+  chunksSize: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
+  sortBy: PropTypes.string.isRequired,
   flats: PropTypes.arrayOf(PropTypes.shape({
     address: PropTypes.string,
   })).isRequired,
-  index: PropTypes.number.isRequired,
   pagesIndexes: PropTypes.shape({
     startIndex: PropTypes.number,
     endIndex: PropTypes.number,

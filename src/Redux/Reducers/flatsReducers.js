@@ -1,4 +1,4 @@
-import { FETCH_SUCCEEDED, FETCH_FAILED } from '../sagas/getFlats.saga';
+import { FETCH_BY_ID_SUCCEEDED, FETCH_SUCCEEDED, FETCH_FAILED } from '../sagas/getFlats.saga';
 
 const initialState = {
   flatsList: [],
@@ -10,8 +10,13 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case FETCH_BY_ID_SUCCEEDED:
+      console.log(action);
+      return {
+        ...state,
+        recentFlats: [...action.payload.data],
+      };
     case FETCH_SUCCEEDED:
-      console.log('reducer: ', action.payload.data);
       return {
         ...state,
         flatsList: [...action.payload.data.flats],

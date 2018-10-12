@@ -2,11 +2,19 @@ export const SIGN_IN = 'SIGN_IN';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const SIGN_UP = 'SIGN_UP';
 export const LOGOUT = 'LOGOUT';
+export const CHANGE_DATA = 'CHANGE_DATA';
 
 export function setCurrentUser(decodedToken) {
   return {
     type: SET_CURRENT_USER,
     decodedToken,
+  };
+}
+
+export function changeData(payload) {
+  return {
+    type: CHANGE_DATA,
+    payload,
   };
 }
 
