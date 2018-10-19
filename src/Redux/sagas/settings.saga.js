@@ -1,21 +1,16 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
-import { GET_FLATS } from '../actions/flats.actions';
+import { put, takeEvery } from 'redux-saga/effects';
+import {
+  FILTER_CHANGED, PAGE_INDEX, GET_FLATS, CHANGE_FILTER_VALUES,
+} from '../constants';
 
-export const CHANGE_FILTER_VALUES = 'CHANGE_FILTER_VALUES';
-export const FETCH_FAILED = 'FETCH_FAILED';
-
-export function* changePageAsync(action) {
+export function* changeIndexAsync(action) {
   try {
-    console.log(action);
     yield put({
       type: GET_FLATS,
-      payload: {
-        filter: action.filter,
-        page: action.payload,
-      },
+      payload: action.payload,
     });
   } catch (error) {
-    yield put({ type: 'FETCH_FAILED', error });
+    yield console.log(error);
   }
 }
 
@@ -24,19 +19,19 @@ export function* changeFilterAsync(action) {
     yield put({
       type: GET_FLATS,
       payload: {
-        filter: action.payload,
-        page: action.page,
+        filter: action.payload.filter,
+        index: action.payload.index,
       },
     });
-    yield put({ type: 'CHANGE_FILTER_VALUES', payload: action.payload });
+    yield put({ type: CHANGE_FILTER_VALUES, payload: action.payload });
   } catch (error) {
-    yield put({ type: 'FETCH_FAILED', error });
+    yield console.log(error);
   }
 }
 
 export function* watchChangePage() {
   yield [
-    takeEvery('PAGE_INDEX', changePageAsync),
-    takeEvery('FILTER_CHANGED', changeFilterAsync),
+    takeEvery(PAGE_INDEX, changeIndexAsync),
+    takeEvery(FILTER_CHANGED, changeFilterAsync),
   ];
 }

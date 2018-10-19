@@ -1,10 +1,9 @@
-import { PAGE_INDEX } from '../actions/settings.action';
-import { CHANGE_FILTER_VALUES } from '../sagas/settings.saga';
+import { PAGE_INDEX, CHANGE_FILTER_VALUES } from '../constants';
 
 const initialState = {
   pageIndex: 0,
-  sortBy: '',
-  orderBy: null,
+  sortBy: 'Price',
+  orderBy: '-1',
   chunksSize: 20,
 };
 
@@ -20,7 +19,7 @@ export default (state = initialState, action) => {
     case PAGE_INDEX:
       return {
         ...state,
-        pageIndex: action.payload,
+        pageIndex: action.payload.index,
       };
     default:
       return state;

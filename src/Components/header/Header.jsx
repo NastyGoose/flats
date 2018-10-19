@@ -1,7 +1,6 @@
 // react/react-router
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
-
 // fontawesome icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -9,11 +8,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import PropTypes from 'prop-types';
-
 // redux stuff
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { logout } from '../../Redux/actions/auth.actions';
+import { logout } from '../../Redux/actions/auth.action';
 
 class Header extends PureComponent {
   static propTypes = {
@@ -46,10 +44,12 @@ class Header extends PureComponent {
       default:
         if (this.props.isAuthenticated) {
           return (
-            <FontAwesomeIcon
-              onClick={this.handleLogout}
-              icon={faDoorOpen}
-            />
+            <Link to="/">
+              <FontAwesomeIcon
+                onClick={this.handleLogout}
+                icon={faDoorOpen}
+              />
+            </Link>
           );
         }
         return (
@@ -64,20 +64,32 @@ class Header extends PureComponent {
     }
   }
 
+  get leftItem() {
+    if (this.props.isAuthenticated) {
+      return (
+        <Link to="/userpage">
+          <FontAwesomeIcon
+            icon={faUser}
+          />
+        </Link>
+      );
+    }
+    return (
+      <FontAwesomeIcon
+        icon={faUser}
+      />
+    );
+  }
+
   handleLogout = () => {
     this.props.logout();
-    window.location.reload();
   };
 
   render() {
     return (
       <header>
         <div className="userCab">
-          <a href="/userpage">
-            <FontAwesomeIcon
-              icon={faUser}
-            />
-          </a>
+          {this.leftItem}
         </div>
         <div className="logo">
           <FontAwesomeIcon

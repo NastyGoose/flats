@@ -115,13 +115,13 @@ body {
     margin-right: auto;
   }
 
-    .favoriteBtn {
+  .favoriteBtn {
       cursor: pointer;
       margin-left: 20px;
     }
 
   .userNav {
-    .MuiTabs-flexContainer-39 {
+    .MuiTabs-flexContainer-40 {
       justify-content: space-around;
     }
   }
@@ -136,6 +136,7 @@ body {
       justify-content: center;
     }
   }
+
 
   // cards
   .cardsContainer {
@@ -153,27 +154,10 @@ body {
       .card {
         flex: auto;
         width: 400px;
-        margin-bottom: 20px;
+        margin: 10px;
       }
     }
   }
-
-  // slider
-  .MuiSlider-track-130 {
-    background-color: grey;
-  }
-
-  .MuiSlider-thumb-133 {
-    background-color: whitesmoke;
-    border: 1.5px solid indianred;
-    &.MuiSlider-activated-139 {
-      box-shadow: 0 0 0 18px rgba(234, 64, 98, 0.16);
-    }
-    &:hover {
-      box-shadow: 0 0 0 9px rgba(234, 64, 98, 0.16);
-    }
-  }
-
   // pagination
   .page-item.active .page-link {
     background-color: #a00e24;
@@ -198,5 +182,15 @@ body {
       color: #c02626;
     }
   }
+
+  .FavoriteFlats, .RecentFlats {
+    display: flex;
+    justify-content: center;
+    max-width: 700px;
+    flex-direction: column;
+    margin: auto;
+    padding: 20px;
+  }
+
 
 }

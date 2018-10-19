@@ -1,13 +1,11 @@
-export const SIGN_IN = 'SIGN_IN';
-export const SET_CURRENT_USER = 'SET_CURRENT_USER';
-export const SIGN_UP = 'SIGN_UP';
-export const LOGOUT = 'LOGOUT';
-export const CHANGE_DATA = 'CHANGE_DATA';
+import {
+  CHECK_PASSWORD, SET_CURRENT_USER, CHANGE_DATA, SIGN_IN, SIGN_UP, LOGOUT,
+} from '../constants';
 
 export function setCurrentUser(decodedToken) {
   return {
     type: SET_CURRENT_USER,
-    decodedToken,
+    payload: decodedToken,
   };
 }
 
@@ -22,17 +20,31 @@ export function signIn(email, password) {
   console.log('dispatched');
   return {
     type: SIGN_IN,
-    email,
-    password,
+    payload: {
+      email,
+      password,
+    },
   };
 }
 
 export function signUp(login, email, password) {
   return {
     type: SIGN_UP,
-    email,
-    login,
-    password,
+    payload: {
+      email,
+      login,
+      password,
+    },
+  };
+}
+
+export function checkPassword(email, password) {
+  return {
+    type: CHECK_PASSWORD,
+    payload: {
+      email,
+      password,
+    },
   };
 }
 

@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import actions from './actionReducer';
-import flats from './flatsReducers';
-import auth from './authReducer';
+import actions from './action';
+import flats from './flats';
+import auth from './auth';
 
 const allReducers = combineReducers({
   actions,

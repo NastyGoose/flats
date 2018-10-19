@@ -1,18 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import registerServiceWorker from './registerServiceWorker';
-import configureStore from './Redux/Reducers/configureStore';
-import { Provider } from 'react-redux';
-import { CookiesProvider } from 'react-cookie';
-import setAuthorizationToken from './Components/utilitaryLogic/setAuthorizationToken';
-import {setCurrentUser} from './Redux/actions/auth.actions';
 import jwt from 'jsonwebtoken';
+import { CookiesProvider } from 'react-cookie';
+// redux stuff
+import { Provider } from 'react-redux';
+import configureStore from './Redux/reducers/index';
+import { setCurrentUser } from './Redux/actions/auth.action';
+// local imports
+import App from './App';
+import tokenValidate from './Components/utilitaryLogic/tokenValidation';
+// material-ui and reactstrap
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const store = configureStore();
-if (localStorage.jwtToken) {
-  setAuthorizationToken(localStorage.jwtToken);
+if (tokenValidate()) {
   store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)));
 }
 
@@ -23,4 +24,3 @@ ReactDOM.render(
     </Provider>
   </CookiesProvider>, document.getElementById('root'),
 );
-registerServiceWorker();

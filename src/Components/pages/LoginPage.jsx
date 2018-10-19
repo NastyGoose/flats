@@ -1,11 +1,13 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { Redirect } from 'react-router-dom';
 import {
   Button, InputGroup, InputGroupAddon, Input,
 } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { signIn } from '../../Redux/actions/auth.actions';
+// redux stuff
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { signIn } from '../../Redux/actions/auth.action';
 
 class LoginPage extends PureComponent {
     handleSubmit = (e) => {
@@ -17,11 +19,13 @@ class LoginPage extends PureComponent {
     };
 
     render() {
-      return (
+      return this.props.isAuthenticated ? <Redirect to="/" /> :
+      (
         <form
           onSubmit={this.handleSubmit}
           className="loginForm"
         >
+          {this.Redirect}
           <h1>
             Log in!
           </h1>
@@ -55,6 +59,12 @@ class LoginPage extends PureComponent {
     }
 }
 
+function mapStateToProps(state) {
+  return {
+    isAuthenticated: state.auth.isAuthenticated,
+  };
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     signIn: bindActionCreators(signIn, dispatch),
@@ -63,6 +73,7 @@ function mapDispatchToProps(dispatch) {
 
 LoginPage.propTypes = {
   signIn: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

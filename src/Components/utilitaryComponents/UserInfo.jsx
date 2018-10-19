@@ -1,88 +1,48 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+// material-ui
 import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import connect from 'react-redux/es/connect/connect';
-import IconButton from '@material-ui/core/IconButton';
+import {
+  Paper, Typography, TextField, IconButton,
+} from '@material-ui/core';
 import { Edit } from '@material-ui/icons';
-import DeleteIcon from '@material-ui/icons/Delete';
+// redux stuff
 import { bindActionCreators } from 'redux';
-import Loader from './loader';
-import LinearLoader from './linearLoader';
-import { changeData } from '../../Redux/actions/auth.actions';
-import CustomizedTable from './statTable';
-
-const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit,
-  },
-  input: {
-    display: 'none',
-  },
-  root: {
-    ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-  },
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    width: 'fit-content',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-  itemWrapper: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    display: 'flex',
-  },
-  changeIcon: {
-    margin: 'auto',
-    marginBottom: 0,
-  },
-  dense: {
-    marginTop: 16,
-  },
-  menu: {
-    width: 200,
-  },
-  UserInfo: {
-    display: 'flex',
-    padding: '30px',
-    justifyContent: 'space-evenly',
-  },
-  identifiers: {
-    display: 'flex',
-    margin: 'auto',
-    flexDirection: 'column',
-  },
-});
+import connect from 'react-redux/es/connect/connect';
+import { changeData } from '../../Redux/actions/auth.action';
+// local imports
+import CustomizedTable from './StatTable';
+import { userInfo } from '../styles/stylesheet';
+import ModalExample from './ChangePassword';
 
 class UserInfo extends React.PureComponent {
   state = {
     login: '',
     email: '',
-    password: '********',
+    password: 'new password',
     loginStatus: true,
     emailStatus: true,
     passwordStatus: true,
   };
 
+  showPassword = () => {
+    if (!this.props.passwordValid) {
+      this.setState({
+        passwordStatus: false,
+      });
+    }
+  };
+
   handleClick = payload => () => {
+    console.log(payload);
     if (this.state[payload.status]) {
       this.setState({
         [payload.status]: false,
       });
     } else {
+      console.log(this.state.password);
       this.props.changeData({
-        login: this.state.login ? this.state.login : this.props.login,
-        email: this.state.email ? this.state.email : this.props.email,
-        password: this.state.password ? '123' : '123',
+        [payload.name]: this.state[payload.name] ? this.state[payload.name] : this.props[payload.name],
       });
       this.setState({
         [payload.status]: true,
@@ -107,19 +67,24 @@ class UserInfo extends React.PureComponent {
     const { classes } = this.props;
     const name = <text style={{ color: 'indianred' }}>{this.props.login}</text>;
     return (
-      [<Typography
-        style={{
-          padding: '20px',
-          textAlign: 'center',
-        }}
-        variant="h5"
-        component="h3"
-      >
+      [
+        <div>
+          {this.state.passwordStatus ? null : <ModalExample email={this.props.email} />}
+        </div>,
+
+        <Typography
+          style={{
+            padding: '20px',
+            textAlign: 'center',
+          }}
+          variant="h5"
+          component="h3"
+        >
         Welcome back
-        {' '}
-        {name}
+          {' '}
+          {name}
         !
-      </Typography>,
+        </Typography>,
 
         <Paper className={classes.UserInfo} elevation={1}>
           <div className={classes.identifiers}>
@@ -129,10 +94,13 @@ class UserInfo extends React.PureComponent {
             >
               Change your identifiers!
             </Typography>
-            <form className={classes.container} noValidate autoComplete="off">
+            <form
+              className={classes.container}
+              noValidate
+              autoComplete="off"
+            >
               <div className={classes.itemWrapper}>
                 <TextField
-                  id="name"
                   label="Login"
                   className={classes.textField}
                   value={this.Field('login')}
@@ -149,14 +117,13 @@ class UserInfo extends React.PureComponent {
                     status: 'loginStatus',
                   })}
                   className={classes.changeIcon}
-                  aria-label="Delete"
+                  color={this.state.loginStatus ? 'inherit' : 'secondary'}
                 >
                   <Edit />
                 </IconButton>
               </div>
               <div className={classes.itemWrapper}>
                 <TextField
-                  id="disabled"
                   label="Email"
                   value={this.Field('email')}
                   onChange={this.handleChange('email')}
@@ -173,16 +140,15 @@ class UserInfo extends React.PureComponent {
                     status: 'emailStatus',
                   })}
                   className={classes.changeIcon}
-                  aria-label="Delete"
+                  color={this.state.emailStatus ? 'inherit' : 'secondary'}
                 >
                   <Edit />
                 </IconButton>
               </div>
               <div className={classes.itemWrapper}>
                 <TextField
-                  id="filled-read-only-input"
                   label="Password"
-                  type="password"
+                  type={this.props.passwordValid ? 'text' : 'password'}
                   value={this.Field('password')}
                   defaultValue="loading..."
                   onChange={this.handleChange('password')}
@@ -193,12 +159,13 @@ class UserInfo extends React.PureComponent {
                   }}
                 />
                 <IconButton
-                  onClick={this.handleClick({
+                  onClick={this.props.passwordValid ? this.handleClick({
                     name: 'password',
                     status: 'passwordStatus',
-                  })}
+                  }) : this.showPassword}
                   className={classes.changeIcon}
                   aria-label="Delete"
+                  color={this.state.passwordStatus ? 'inherit' : 'secondary'}
                 >
                   <Edit />
                 </IconButton>
@@ -218,6 +185,7 @@ function mapStateToProps(state) {
   return {
     email: state.auth.user.email,
     login: state.auth.user.login,
+    passwordValid: state.auth.passwordValid,
   };
 }
 
@@ -232,7 +200,8 @@ UserInfo.propTypes = {
   classes: PropTypes.object.isRequired,
   email: PropTypes.string.isRequired,
   login: PropTypes.string.isRequired,
+  passwordValid: PropTypes.bool.isRequired,
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(UserInfo));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(userInfo)(UserInfo));

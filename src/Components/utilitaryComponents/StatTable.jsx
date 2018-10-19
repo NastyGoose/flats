@@ -1,13 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { instanceOf } from 'prop-types';
+import { Cookies, withCookies } from 'react-cookie';
+// material-ui
 import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import {
+  Table, TableBody, TableCell, TableHead, TableRow, Paper, Typography,
+} from '@material-ui/core/';
+import connect from 'react-redux/es/connect/connect';
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -35,25 +34,30 @@ const styles = theme => ({
   },
 });
 
-let id = 0;
-function createData(name, value) {
-  id += 1;
-  return {
-    id, name, value,
-  };
-}
-
-const rows = [
-  createData('Viewed flats', 159),
-  createData('Bought flats', 237),
-  createData('Days since registration', 262),
+const rows = props => [
+  {
+    id: 0,
+    name: 'Recently viewed flats',
+    value: props.cookies.get('recentIDs') ? props.cookies.get('recentIDs').length : 0,
+  },
+  {
+    id: 1,
+    name: 'Liked flats',
+    value: props.favoriteFlats ? props.favoriteFlats.length : 0,
+  },
+  {
+    id: 2,
+    name: 'Days since registration',
+    value: 'in progress..',
+  },
 ];
 
 function CustomizedTable(props) {
   const { classes } = props;
-
+  console.log(props);
   return (
     [<Typography
+      align="center"
       variant="h2"
       component="h3"
     >
@@ -69,7 +73,7 @@ function CustomizedTable(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
+            {rows(props).map(row => (
               <TableRow className={classes.row} key={row.id}>
                 <CustomTableCell component="th" scope="row">
                   {row.name}
@@ -84,8 +88,17 @@ function CustomizedTable(props) {
   );
 }
 
+function mapStateToProps(state, ownProps) {
+  return {
+    cookies: ownProps.cookies,
+    favoriteFlats: state.auth.favoriteFlats,
+  };
+}
+
 CustomizedTable.propTypes = {
+  cookies: instanceOf(Cookies).isRequired,
   classes: PropTypes.object.isRequired,
+  favoriteFlats: PropTypes.array.isRequired,
 };
 
-export default withStyles(styles)(CustomizedTable);
+export default withCookies(connect(mapStateToProps)(withStyles(styles)(CustomizedTable)));

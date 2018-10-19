@@ -1,14 +1,13 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
-import rootReducer from './rootReducer';
+import rootReducer from './root';
 import { watchGetFlats } from '../sagas/getFlats.saga';
 import { watchAuthActions } from '../sagas/auth.saga';
 import { watchChangePage } from '../sagas/settings.saga';
 
 export default function configureStore(initialState) {
   const sagaMiddleware = createSagaMiddleware();
-  const middleware = [thunk, sagaMiddleware];
+  const middleware = [sagaMiddleware];
 
   const store = createStore(rootReducer, initialState, compose(
     applyMiddleware(...middleware),
@@ -16,8 +15,8 @@ export default function configureStore(initialState) {
   ));
 
   if (module.hot) {
-    module.hot.accept('./rootReducer', () => {
-      const nextRootReducer = require('./rootReducer');
+    module.hot.accept('./root', () => {
+      const nextRootReducer = require('./root');
       store.replaceReducer(nextRootReducer);
     });
   }

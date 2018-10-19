@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+// material-ui stuff
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';

@@ -1,25 +1,25 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import {
   GET_BY_ID, REMOVE_FAVORITE, ADD_FAVORITE, GET_FLATS,
-} from '../actions/flats.actions';
+  FETCH_BY_ID_SUCCEEDED, FETCH_SUCCEEDED, FETCH_FAILED,
+  SUCCESSFULLY_ADDED_FAVORITE, SUCCESSFULLY_REMOVED_FAVORITE,
+} from '../constants';
 import API from '../../Components/API/API';
-
-export const FETCH_BY_ID_SUCCEEDED = 'FETCH_BY_ID_SUCCEED';
-export const FETCH_SUCCEEDED = 'FETCH_SUCCEEDED';
-export const FETCH_FAILED = 'FETCH_FAILED';
 
 export function* fetchData(action) {
   try {
     const payload = yield call(API.getFlats, action.payload);
-    yield put({ type: 'FETCH_SUCCEEDED', payload });
+    yield put({ type: FETCH_SUCCEEDED, payload });
   } catch (error) {
-    yield put({ type: 'FETCH_FAILED', error });
+    yield put({ type: FETCH_FAILED, error });
   }
 }
 
 export function* addNewFavoriteFlat(action) {
   try {
-    yield call(API.addFavoriteFlat, action.payload);
+    console.log(action);
+    yield call(API.addFavoriteFlat, action.payload.flat._id);
+    yield put({ type: SUCCESSFULLY_ADDED_FAVORITE, payload: action.payload });
   } catch (error) {
     console.log(error);
   }
@@ -27,7 +27,9 @@ export function* addNewFavoriteFlat(action) {
 
 export function* removeFavoriteFlat(action) {
   try {
-    yield call(API.removeFavoriteFlat, action.payload);
+    console.log(action);
+    yield call(API.removeFavoriteFlat, action.payload.flat._id);
+    yield put({ type: SUCCESSFULLY_REMOVED_FAVORITE, payload: action.payload });
   } catch (error) {
     console.log(error);
   }

@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 // material-ui stuff
-import { withStyles } from '@material-ui/core/styles';
+import { MuiThemeProvider, withStyles, createMuiTheme } from '@material-ui/core/styles';
 import classNames from 'classnames';
-
 // material-ui stuff
 import {
   Typography, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelActions, ExpansionPanelSummary,
@@ -14,12 +12,30 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import Slider from '@material-ui/lab/Slider';
-
 // redux stuff
 import { bindActionCreators } from 'redux';
 import connect from 'react-redux/es/connect/connect';
-import { getFlats } from '../../Redux/actions/flats.actions';
 import { changeFilter } from '../../Redux/actions/settings.action';
+
+const customTheme = createMuiTheme({
+  overrides: {
+    MuiSlider: {
+      track: {
+        backgroundColor: 'grey',
+      },
+      thumb: {
+        backgroundColor: 'whitesmoke',
+        border: '1.5px solid indianred',
+        activated: {
+          boxShadow: '0 0 0 18px rgba(234, 64, 98, 0.16)',
+        },
+        hover: {
+          boxShadow: '0 0 0 9px rgba(234, 64, 98, 0.16)',
+        },
+      },
+    },
+  },
+});
 
 const styles = theme => ({
   slider: {
@@ -80,14 +96,14 @@ class Settings extends React.Component {
 
   handleClick = () => {
     const filter = {
-      sort: this.state.sortBy,
-      order: this.state.orderBy,
+      sortBy: this.state.sortBy,
+      orderBy: this.state.orderBy,
       chunksSize: this.state.chunksSize,
     };
-    // const page = this.props.index;
-    this.props.changeFilter(filter, this.props.index);
-    // this.props.getFlats(filter, chunksSize, page);
-    // window.location.reload();
+    this.props.changeFilter({
+      filter,
+      index: this.props.index,
+    });
   };
 
   render() {
@@ -138,15 +154,17 @@ class Settings extends React.Component {
               >
                 {this.state.chunksSize}
               </Typography>
-              <Slider
-                color="red"
-                classes={{ container: classes.slider }}
-                value={this.state.chunksSize}
-                min={4}
-                max={40}
-                step={4}
-                onChange={this.handleSliderChange}
-              />
+              <MuiThemeProvider theme={customTheme}>
+                <Slider
+                  color="red"
+                  classes={{ container: classes.slider }}
+                  value={this.state.chunksSize}
+                  min={4}
+                  max={40}
+                  step={4}
+                  onChange={this.handleSliderChange}
+                />
+              </MuiThemeProvider>
               <Typography variant="caption">
                 Select how many flats will be displayed per page.
               </Typography>
@@ -185,12 +203,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     changeFilter: bindActionCreators(changeFilter, dispatch),
-    getFlats: bindActionCreators(getFlats, dispatch),
   };
 }
 
 Settings.propTypes = {
-  getFlats: PropTypes.func.isRequired,
   changeFilter: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,

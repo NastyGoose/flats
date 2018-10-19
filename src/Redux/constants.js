@@ -1,0 +1,33 @@
+// auth actions
+export const SIGN_IN = 'SIGN_IN';
+export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const SIGN_UP = 'SIGN_UP';
+export const LOGOUT = 'LOGOUT';
+export const CHANGE_DATA = 'CHANGE_DATA';
+export const CHECK_PASSWORD = 'CHECK_PASSWORD';
+
+// flats actions
+export const GET_FLATS = 'GET_FLATS';
+export const ADD_FAVORITE = 'ADD_FAVORITE';
+export const REMOVE_FAVORITE = 'REMOVE_FAVORITE';
+export const GET_BY_ID = 'GET_BY_ID';
+
+// settings actions
+export const FILTER_CHANGED = 'FILTER_CHANGED';
+export const PAGE_INDEX = 'PAGE_INDEX';
+
+// auth saga
+export const SET_CURRENT_USER_SUCCEEDED = 'SET_CURRENT_USER_SUCCEEDED';
+export const SUCCESSFULLY_CHANGED_DATA = 'SUCCESSFULLY_CHANGED_DATA';
+export const LOGOUT_SUCCEEDED = 'LOGOUT_SUCCEEDED';
+export const PASSWORD_CHECKED = 'PASSWORD_CHECKED';
+
+// get flats saga
+export const FETCH_BY_ID_SUCCEEDED = 'FETCH_BY_ID_SUCCEED';
+export const FETCH_SUCCEEDED = 'FETCH_SUCCEEDED';
+export const FETCH_FAILED = 'FETCH_FAILED';
+
+// settings saga
+export const CHANGE_FILTER_VALUES = 'CHANGE_FILTER_VALUES';
+export const SUCCESSFULLY_ADDED_FAVORITE = 'SUCCESSFULLY_ADDED_FAVORITE';
+export const SUCCESSFULLY_REMOVED_FAVORITE = 'SUCCESSFULLY_REMOVED_FAVORITE';
