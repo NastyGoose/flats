@@ -31,7 +31,6 @@ const cookiesObject = (props) => {
 class RecentFlats extends React.PureComponent {
   state = {
     isDeleted: false,
-    newFlats: [],
   };
 
   recentIDs = createSelector(
@@ -43,8 +42,8 @@ class RecentFlats extends React.PureComponent {
     this.props.getById(this.recentIDs(this.props));
   }
 
-  getFlats() {
-    const props = this.props.recentFlats ? this.props.recentFlats.slice(5) : [];
+  get Flats() {
+    const props = this.props.recentFlats ? this.props.recentFlats : [];
     if (props.length > 0) {
       return <Cards flats={props} />;
     }
@@ -62,7 +61,6 @@ class RecentFlats extends React.PureComponent {
   };
 
   render() {
-    let flats = [];
     return (
       <div>
         <Paper className="RecentFlats" elevation={1}>
@@ -85,15 +83,7 @@ class RecentFlats extends React.PureComponent {
               onClick={this.removeRecent}
             />
           </Typography>
-          <InfiniteScroll
-            pageStart={0}
-            loadMore={this.Flats}
-            hasMore={true || false}
-            loader={<div className="loader" key={0}>Loading...</div>}
-            useWindow={false}
-          >
-            {this.state.isDeleted ? <h1 align="center"> Your history was deleted! </h1> : flats}
-          </InfiniteScroll>
+          {this.state.isDeleted ? <h1 align="center"> Your history was deleted! </h1> : this.Flats}
         </Paper>
       </div>
     );

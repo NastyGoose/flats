@@ -1,7 +1,6 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import setAuthorizationToken from '../utilitaryLogic/setAuthorizationToken';
-import { BrowserRouter } from 'react-router-dom';
 
 const host = process.env.REACT_APP_FLATS_HOST;
 
@@ -33,7 +32,7 @@ export default class API {
     const { email } = jwt.decode(localStorage.jwtToken);
     axios.post(`${host}/newFavorite`, {
       email,
-      ...id,
+      id,
     })
       .then((res) => {
         console.log(res);
@@ -58,7 +57,7 @@ export default class API {
     const { email } = jwt.decode(localStorage.jwtToken);
     axios.post(`${host}/removeFavorite`, {
       email,
-      ...id,
+      id,
     })
       .then((res) => {
         console.log(res);

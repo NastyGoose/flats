@@ -5,7 +5,7 @@ import { MuiThemeProvider, withStyles, createMuiTheme } from '@material-ui/core/
 import classNames from 'classnames';
 // material-ui stuff
 import {
-  Typography, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelActions, ExpansionPanelSummary,
+  TextField, Typography, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelActions, ExpansionPanelSummary,
   Button, Divider, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel,
 } from '@material-ui/core';
 
@@ -32,6 +32,11 @@ const customTheme = createMuiTheme({
         hover: {
           boxShadow: '0 0 0 9px rgba(234, 64, 98, 0.16)',
         },
+      },
+    },
+    MuiOutlinedInput: {
+      notchedOutline: {
+        borderColor: 'indianred',
       },
     },
   },
@@ -175,6 +180,22 @@ class Settings extends React.Component {
               </Typography>
             </div>
           </ExpansionPanelDetails>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <MuiThemeProvider theme={customTheme}>
+              <TextField
+                id="outlined-full-width"
+                label="Find"
+                style={{ margin: 8, width: '80%' }}
+                placeholder="Placeholder"
+                helperText="Type address!"
+                margin="normal"
+                variant="outlined"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </MuiThemeProvider>
+          </div>
           <Divider />
           <ExpansionPanelActions>
             <Button
