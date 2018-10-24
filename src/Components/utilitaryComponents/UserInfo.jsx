@@ -33,6 +33,10 @@ class UserInfo extends React.PureComponent {
     }
   };
 
+  handlePasswordChange = payload => () => {
+
+  };
+
   handleClick = payload => () => {
     console.log(payload);
     if (this.state[payload.status]) {
@@ -80,7 +84,7 @@ class UserInfo extends React.PureComponent {
           variant="h5"
           component="h3"
         >
-        Welcome back
+        С возвращением
           {' '}
           {name}
         !
@@ -91,8 +95,9 @@ class UserInfo extends React.PureComponent {
             <Typography
               variant="h2"
               component="h3"
+              align="center"
             >
-              Change your identifiers!
+              Измените свои идентификаторы!
             </Typography>
             <form
               className={classes.container}
@@ -172,7 +177,7 @@ class UserInfo extends React.PureComponent {
               </div>
             </form>
           </div>
-          <div className="statistics">
+          <div className={classes.statistics}>
             <CustomizedTable />
           </div>
         </Paper>,
@@ -202,6 +207,5 @@ UserInfo.propTypes = {
   login: PropTypes.string.isRequired,
   passwordValid: PropTypes.bool.isRequired,
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(userInfo)(UserInfo));

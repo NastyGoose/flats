@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
-import PropTypes, { instanceOf } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Cookies, withCookies } from 'react-cookie';
 // reactstrap, material-ui and animations
 import { Power2, TweenLite } from 'gsap';
 import lodash from 'lodash';
@@ -27,6 +26,8 @@ class MainPage extends PureComponent {
       orderBy: this.props.orderBy,
       sortBy: this.props.sortBy,
       chunksSize: this.props.chunksSize,
+      minPrice: this.props.minPrice,
+      maxPrice: this.props.maxPrice,
     };
     if (this.props.index !== this.page - 1) {
       this.props.changeIndex({
@@ -56,10 +57,12 @@ class MainPage extends PureComponent {
                     orderBy: this.props.orderBy,
                     sortBy: this.props.sortBy,
                     chunksSize: this.props.chunksSize,
+                    minPrice: this.props.minPrice,
+                    maxPrice: this.props.maxPrice,
                   },
                 });
               }
-            }
+              }
             >
               {i + 1}
             </PaginationLink>
@@ -113,6 +116,8 @@ class MainPage extends PureComponent {
                       orderBy: this.props.orderBy,
                       sortBy: this.props.sortBy,
                       chunksSize: this.props.chunksSize,
+                      minPrice: this.props.minPrice,
+                      maxPrice: this.props.maxPrice,
                     },
                   });
                 }
@@ -133,6 +138,8 @@ class MainPage extends PureComponent {
                       orderBy: this.props.orderBy,
                       sortBy: this.props.sortBy,
                       chunksSize: this.props.chunksSize,
+                      minPrice: this.props.minPrice,
+                      maxPrice: this.props.maxPrice,
                     },
                   });
                 }
@@ -149,6 +156,8 @@ class MainPage extends PureComponent {
 
 function mapStateToProps(state) {
   return {
+    minPrice: state.actions.minPrice,
+    maxPrice: state.actions.maxPrice,
     favoriteFlats: state.auth.favoriteFlats,
     orderBy: state.actions.orderBy,
     sortBy: state.actions.sortBy,
@@ -168,9 +177,10 @@ function mapDispatchToProps(dispatch) {
 }
 
 MainPage.propTypes = {
-  cookies: instanceOf(Cookies).isRequired,
   changeIndex: PropTypes.func.isRequired,
   getFlats: PropTypes.func.isRequired,
+  minPrice: PropTypes.number.isRequired,
+  maxPrice: PropTypes.number.isRequired,
   orderBy: PropTypes.number.isRequired,
   chunksSize: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,

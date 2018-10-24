@@ -38,10 +38,10 @@ class RegisterPage extends PureComponent {
           className="registrationForm"
         >
           <h1>
-            Sign up!
+            Зарегистрироваться!
           </h1>
           <InputGroup>
-            <InputGroupAddon addonType="prepend"> Username </InputGroupAddon>
+            <InputGroupAddon addonType="prepend"> Логин </InputGroupAddon>
             <Input
               name="login"
               type="text"
@@ -59,7 +59,7 @@ class RegisterPage extends PureComponent {
           </InputGroup>
           <br />
           <InputGroup>
-            <InputGroupAddon addonType="prepend"> Password </InputGroupAddon>
+            <InputGroupAddon addonType="prepend"> Пароль </InputGroupAddon>
             <Input
               name="password"
               type="password"
@@ -68,7 +68,7 @@ class RegisterPage extends PureComponent {
           </InputGroup>
           <br />
           <InputGroup>
-            <InputGroupAddon addonType="prepend"> Repeat password </InputGroupAddon>
+            <InputGroupAddon addonType="prepend"> Повторите пароль </InputGroupAddon>
             <Input
               name="confirmPassword"
               type="password"
@@ -81,7 +81,7 @@ class RegisterPage extends PureComponent {
             color="danger"
             size="lg"
           >
-            Submit
+            Подтвердить
           </Button>
         </form>
       );

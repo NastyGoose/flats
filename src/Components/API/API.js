@@ -18,15 +18,18 @@ export default class API {
       });
   };
 
-  static getFlats = payload => axios
-    .get(`${host}/flats/${payload.filter.sortBy}/${payload.filter.orderBy}/${payload.filter.chunksSize}/${payload.index}`)
-    .then((res) => {
-      console.log('response: ', res);
-      return res;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  static getFlats = (payload) => {
+    console.log(payload);
+    return axios
+      .get(`${host}/flats?sort=${payload.filter.sortBy}&order=${payload.filter.orderBy}&chunkSize=${payload.filter.chunksSize}&minPrice=${payload.filter.minPrice}&maxPrice=${payload.filter.maxPrice}&page=${payload.index}`)
+      .then((res) => {
+        console.log('response: ', res);
+        return res;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   static addFavoriteFlat = (id) => {
     const { email } = jwt.decode(localStorage.jwtToken);
@@ -123,6 +126,17 @@ export default class API {
 
   static checkPassword = (email, password) => {
     const url = `${host}/api/account/checkPassword/${email}/${password}`;
+    return axios.get(url)
+      .then((response) => {
+        console.log(response);
+        return response;
+      })
+      .catch(err => console.log(err));
+  };
+
+  static findFlat = (payload) => {
+    console.log(payload);
+    const url = `${host}/findFlat/${payload.address}`;
     return axios.get(url)
       .then((response) => {
         console.log(response);

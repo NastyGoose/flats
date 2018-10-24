@@ -1,4 +1,4 @@
 {
-  "presets": ["es2015", "react", "env", "airbnb",  "stage-0"],
+  "presets": ["latest", "es2015", "react", "env", "airbnb", "stage-0"],
   "plugins": ["transform-class-properties"]
   }

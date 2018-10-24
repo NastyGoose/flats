@@ -37,17 +37,17 @@ const styles = theme => ({
 const rows = props => [
   {
     id: 0,
-    name: 'Recently viewed flats',
+    name: 'Недавно просмотренные квартиры',
     value: props.cookies.get('recentIDs') ? props.cookies.get('recentIDs').length : 0,
   },
   {
     id: 1,
-    name: 'Liked flats',
+    name: 'Понравивишиеся квартиры',
     value: props.favoriteFlats ? props.favoriteFlats.length : 0,
   },
   {
     id: 2,
-    name: 'Days since registration',
+    name: 'Дней с момента регистрации',
     value: 'in progress..',
   },
 ];
@@ -61,15 +61,15 @@ function CustomizedTable(props) {
       variant="h2"
       component="h3"
     >
-      Look at your statistic!
-    </Typography>,
+      Взгляните на свою статистику!
+     </Typography>,
 
       <Paper className={classes.root}>
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <CustomTableCell>Info</CustomTableCell>
-              <CustomTableCell numeric>Value</CustomTableCell>
+              <CustomTableCell>Информация</CustomTableCell>
+              <CustomTableCell numeric>Значение</CustomTableCell>
             </TableRow>
           </TableHead>
           <TableBody>

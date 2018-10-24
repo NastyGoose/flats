@@ -3,19 +3,21 @@ import PropTypes from 'prop-types';
 // material-ui stuff
 import { MuiThemeProvider, withStyles, createMuiTheme } from '@material-ui/core/styles';
 import classNames from 'classnames';
-// material-ui stuff
+import Icon from '@material-ui/core/Icon';
 import {
   TextField, Typography, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelActions, ExpansionPanelSummary,
   Button, Divider, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel,
 } from '@material-ui/core';
-
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
 import Slider from '@material-ui/lab/Slider';
 // redux stuff
 import { bindActionCreators } from 'redux';
 import connect from 'react-redux/es/connect/connect';
+import { Link } from 'react-router-dom';
 import { changeFilter } from '../../Redux/actions/settings.action';
+import { findFlat } from '../../Redux/actions/flats.action';
+// local imports
+import { settingsStyles } from '../styles/stylesheet';
 
 const customTheme = createMuiTheme({
   overrides: {
@@ -39,43 +41,16 @@ const customTheme = createMuiTheme({
         borderColor: 'indianred',
       },
     },
-  },
-});
-
-const styles = theme => ({
-  slider: {
-    padding: '22px 0px',
-  },
-  root: {
-    width: '100%',
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-  },
-  secondaryHeading: {
-    fontSize: theme.typography.pxToRem(15),
-    color: theme.palette.text.secondary,
-  },
-  icon: {
-    verticalAlign: 'bottom',
-    height: 20,
-    width: 20,
-  },
-  details: {
-    alignItems: 'center',
-  },
-  column: {
-    flexBasis: '33.33%',
-  },
-  helper: {
-    borderLeft: `2px solid ${theme.palette.divider}`,
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
-  },
-  link: {
-    color: theme.palette.primary.main,
-    textDecoration: 'none',
-    '&:hover': {
-      textDecoration: 'underline',
+    MuiInput: {
+      underline: {
+        '&:after': {
+          borderBottom: '2px solid #c10f4e',
+        },
+      },
+    },
+    MuiFormControl: {
+      root: {
+      },
     },
   },
 });
@@ -85,6 +60,9 @@ class Settings extends React.Component {
     sortBy: '',
     orderBy: null,
     chunksSize: 20,
+    findField: '',
+    minPrice: 0,
+    maxPrice: 999,
   };
 
   handleSortChange = (event) => {
@@ -99,67 +77,79 @@ class Settings extends React.Component {
     this.setState({ chunksSize: value });
   };
 
+  handleChange = name => (event) => {
+    this.setState({
+      [name]: event.target.value,
+    });
+  };
+
   handleClick = () => {
     const filter = {
       sortBy: this.state.sortBy,
       orderBy: this.state.orderBy,
       chunksSize: this.state.chunksSize,
+      minPrice: this.state.minPrice,
+      maxPrice: this.state.maxPrice,
     };
     this.props.changeFilter({
       filter,
-      index: this.props.index,
+      index: 0,
     });
+  };
+
+  findFlat = () => {
+    this.props.findFlat(this.state.findField);
   };
 
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <ExpansionPanel defaultExpanded>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <div className={classes.column}>
-              <Typography className={classes.heading}>Filter</Typography>
-            </div>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails className={classes.details}>
-            <div className={classes.column}>
-              <FormControl component="fieldset1" className={classes.formControl}>
-                <FormLabel component="legend">Sort by</FormLabel>
-                <RadioGroup
-                  aria-label="sorter"
-                  name="sorter1"
-                  className={classes.group}
-                  value={this.state.sortBy}
-                  onChange={this.handleSortChange}
+        <MuiThemeProvider theme={customTheme}>
+          <ExpansionPanel defaultExpanded>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+              <div className={classes.column}>
+                <Typography className={classes.heading}>Фильтр</Typography>
+              </div>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails className={classes.details}>
+              <div className={classes.column}>
+                <FormControl component="fieldset1" className={classes.formControl}>
+                  <FormLabel component="legend">Сортировать по</FormLabel>
+                  <RadioGroup
+                    aria-label="sorter"
+                    name="sorter1"
+                    className={classes.group}
+                    value={this.state.sortBy}
+                    onChange={this.handleSortChange}
+                  >
+                    <FormControlLabel value="Price" control={<Radio />} label="Цене" />
+                    <FormControlLabel value="Date" control={<Radio />} label="Дате обновления" />
+                  </RadioGroup>
+                </FormControl>
+              </div>
+              <div className={classes.column}>
+                <FormControl component="fieldset2" className={classes.formControl}>
+                  <FormLabel component="legend">В порядке</FormLabel>
+                  <RadioGroup
+                    aria-label="order"
+                    name="order1"
+                    className={classes.group}
+                    value={this.state.orderBy}
+                    onChange={this.handleOrderChange}
+                  >
+                    <FormControlLabel value={1} control={<Radio />} label="Возрастающем" />
+                    <FormControlLabel value={-1} control={<Radio />} label="Убывающем" />
+                  </RadioGroup>
+                </FormControl>
+              </div>
+              <div className={classes.column}>
+                <Typography
+                  variant="caption"
+                  align="center"
                 >
-                  <FormControlLabel value="Price" control={<Radio />} label="Price" />
-                  <FormControlLabel value="Date" control={<Radio />} label="Update Date" />
-                </RadioGroup>
-              </FormControl>
-            </div>
-            <div className={classes.column}>
-              <FormControl component="fieldset2" className={classes.formControl}>
-                <FormLabel component="legend">Order by</FormLabel>
-                <RadioGroup
-                  aria-label="order"
-                  name="order1"
-                  className={classes.group}
-                  value={this.state.orderBy}
-                  onChange={this.handleOrderChange}
-                >
-                  <FormControlLabel value={1} control={<Radio />} label="Ascend" />
-                  <FormControlLabel value={-1} control={<Radio />} label="Descend" />
-                </RadioGroup>
-              </FormControl>
-            </div>
-            <div className={classes.column}>
-              <Typography
-                variant="caption"
-                align="center"
-              >
-                {this.state.chunksSize}
-              </Typography>
-              <MuiThemeProvider theme={customTheme}>
+                  {this.state.chunksSize}
+                </Typography>
                 <Slider
                   color="red"
                   classes={{ container: classes.slider }}
@@ -169,47 +159,81 @@ class Settings extends React.Component {
                   step={4}
                   onChange={this.handleSliderChange}
                 />
-              </MuiThemeProvider>
-              <Typography variant="caption">
-                Select how many flats will be displayed per page.
-              </Typography>
-            </div>
-            <div className={classNames(classes.column, classes.helper)}>
-              <Typography variant="caption">
-                Select your preferences here.
-              </Typography>
-            </div>
-          </ExpansionPanelDetails>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <MuiThemeProvider theme={customTheme}>
+                <Typography variant="caption">
+                Укажите сколько квартир будет отображаться на странице.
+                </Typography>
+              </div>
+              <div className={classNames(classes.column, classes.helper)}>
+                <Typography variant="caption">
+                Укажите ваши препочтения здесь.
+                </Typography>
+              </div>
+            </ExpansionPanelDetails>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
               <TextField
+                onChange={this.handleChange('findField')}
+                value={this.state.findField}
                 id="outlined-full-width"
-                label="Find"
+                label="Найти"
                 style={{ margin: 8, width: '80%' }}
-                placeholder="Placeholder"
-                helperText="Type address!"
+                placeholder="Адресс"
+                helperText="Впишите сюда искомый адресс!"
                 margin="normal"
                 variant="outlined"
                 InputLabelProps={{
                   shrink: true,
                 }}
               />
-            </MuiThemeProvider>
-          </div>
-          <Divider />
-          <ExpansionPanelActions>
-            <Button
-              style={{
-                color: 'mediumvioletred',
-              }}
-              onClick={this.handleClick}
-              size="small"
-              color="primary"
-            >
-              Apply
-            </Button>
-          </ExpansionPanelActions>
-        </ExpansionPanel>
+              <Button onClick={this.findFlat} variant="fab" color="secondary" className={classes.button}>
+                <Icon>search_icon</Icon>
+              </Button>
+            </div>
+            <div className={classes.prices}>
+              <TextField
+                id="standard-number"
+                label="Минимальная цена"
+                value={this.state.minPrice}
+                onChange={this.handleChange('minPrice')}
+                type="number"
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                margin="normal"
+              />
+              <Typography style={{ margin: 'auto 0', fontSize: '15px' }} align="center" variant="caption">
+              Укажите ценовые границы
+              </Typography>
+              <TextField
+                id="standard-number"
+                label="Максимальная цена"
+                value={this.state.maxPrice}
+                onChange={this.handleChange('maxPrice')}
+                type="number"
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                margin="normal"
+              />
+            </div>
+            <Divider />
+            <ExpansionPanelActions>
+              <Link to="/page=0">
+                <Button
+                  style={{
+                    color: 'mediumvioletred',
+                  }}
+                  onClick={this.handleClick}
+                  size="small"
+                  color="primary"
+                >
+              Применить
+                </Button>
+              </Link>
+            </ExpansionPanelActions>
+          </ExpansionPanel>
+        </MuiThemeProvider>
       </div>
     );
   }
@@ -224,13 +248,14 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     changeFilter: bindActionCreators(changeFilter, dispatch),
+    findFlat: bindActionCreators(findFlat, dispatch),
   };
 }
 
 Settings.propTypes = {
   changeFilter: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
-  index: PropTypes.number.isRequired,
+  findFlat: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Settings));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(settingsStyles)(Settings));

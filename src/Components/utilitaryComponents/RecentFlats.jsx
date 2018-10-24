@@ -44,8 +44,15 @@ class RecentFlats extends React.PureComponent {
 
   get Flats() {
     const props = this.props.recentFlats ? this.props.recentFlats : [];
-    if (props.length > 0) {
-      return <Cards flats={props} />;
+    if (this.props) {
+      if (props.length > 0) {
+        return <Cards flats={props} />;
+      }
+      return (
+        <h1 align="center">
+          У вас нет недавно посещенных квартир!
+        </h1>
+      );
     }
     return (
       <Loader />
@@ -72,7 +79,7 @@ class RecentFlats extends React.PureComponent {
             variant="h5"
             component="h3"
           >
-            Flats that you looked up recently!
+            Квартиры которые вы недавно просматривали!
             <br />
             <DeleteOutlineTwoTone
               fontSize="50px"

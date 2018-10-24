@@ -5,6 +5,7 @@ export const SIGN_UP = 'SIGN_UP';
 export const LOGOUT = 'LOGOUT';
 export const CHANGE_DATA = 'CHANGE_DATA';
 export const CHECK_PASSWORD = 'CHECK_PASSWORD';
+export const FIND_FLAT = 'FIND_FLAT';
 
 // flats actions
 export const GET_FLATS = 'GET_FLATS';
@@ -26,6 +27,7 @@ export const PASSWORD_CHECKED = 'PASSWORD_CHECKED';
 export const FETCH_BY_ID_SUCCEEDED = 'FETCH_BY_ID_SUCCEED';
 export const FETCH_SUCCEEDED = 'FETCH_SUCCEEDED';
 export const FETCH_FAILED = 'FETCH_FAILED';
+export const FLATS_FOUND_SUCCESSFULLY = 'FLATS_FOUND_SUCCESSFULLY';
 
 // settings saga
 export const CHANGE_FILTER_VALUES = 'CHANGE_FILTER_VALUES';

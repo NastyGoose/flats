@@ -3,6 +3,7 @@ import {
   GET_BY_ID, REMOVE_FAVORITE, ADD_FAVORITE, GET_FLATS,
   FETCH_BY_ID_SUCCEEDED, FETCH_SUCCEEDED, FETCH_FAILED,
   SUCCESSFULLY_ADDED_FAVORITE, SUCCESSFULLY_REMOVED_FAVORITE,
+  FIND_FLAT, FLATS_FOUND_SUCCESSFULLY,
 } from '../constants';
 import API from '../../Components/API/API';
 
@@ -44,8 +45,18 @@ export function* getByIdAsync(action) {
   }
 }
 
+export function* findFlatAsync(action) {
+  try {
+    const payload = yield call(API.findFlat, action.payload);
+    yield put({ type: FLATS_FOUND_SUCCESSFULLY, payload });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export function* watchGetFlats() {
   yield [
+    takeEvery(FIND_FLAT, findFlatAsync),
     takeEvery(GET_FLATS, fetchData),
     takeEvery(ADD_FAVORITE, addNewFavoriteFlat),
     takeEvery(REMOVE_FAVORITE, removeFavoriteFlat),

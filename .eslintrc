@@ -13,6 +13,15 @@
   ],
   "rules": {
     "semi": [1, "always"],
-    "fix": "true"
+    "fix": "true",
+    "no-console": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "no-alert": "off",
+    "react/destructuring-assignment": "off",
+    "global-require": "off",
+    "react/forbid-prop-types": "off",
+    "prefer-destructuring": "off",
+    "no-underscore-dangle": "off",
+    "max-len": "off"
   }
 }

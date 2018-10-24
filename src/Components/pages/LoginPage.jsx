@@ -19,43 +19,43 @@ class LoginPage extends PureComponent {
     };
 
     render() {
-      return this.props.isAuthenticated ? <Redirect to="/" /> :
-      (
-        <form
-          onSubmit={this.handleSubmit}
-          className="loginForm"
-        >
-          {this.Redirect}
-          <h1>
-            Log in!
-          </h1>
-          <InputGroup>
-            <InputGroupAddon addonType="append"> Email </InputGroupAddon>
-            <Input
-              name="email"
-              type="email"
-              placeholder="type your email here"
-            />
-          </InputGroup>
-          <br />
-          <InputGroup>
-            <InputGroupAddon addonType="append"> Password </InputGroupAddon>
-            <Input
-              name="password"
-              type="password"
-              placeholder="still remember it, huh?"
-            />
-          </InputGroup>
-          <br />
-          <Button
-            outline
-            color="danger"
-            size="lg"
+      return this.props.isAuthenticated ? <Redirect to="/" />
+        : (
+          <form
+            onSubmit={this.handleSubmit}
+            className="loginForm"
           >
-            Submit
-          </Button>
-        </form>
-      );
+            {this.Redirect}
+            <h1>
+            Войти!
+            </h1>
+            <InputGroup>
+              <InputGroupAddon addonType="append"> Email </InputGroupAddon>
+              <Input
+                name="email"
+                type="email"
+                placeholder="type your email here"
+              />
+            </InputGroup>
+            <br />
+            <InputGroup>
+              <InputGroupAddon addonType="append"> Пароль </InputGroupAddon>
+              <Input
+                name="password"
+                type="password"
+                placeholder="still remember it, huh?"
+              />
+            </InputGroup>
+            <br />
+            <Button
+              outline
+              color="danger"
+              size="lg"
+            >
+            Подтвердить
+            </Button>
+          </form>
+        );
     }
 }
 

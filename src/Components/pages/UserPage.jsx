@@ -75,15 +75,15 @@ class UserPage extends React.Component {
                 indicatorColor="primary"
                 textColor="primary"
               >
-                <Tab label="About you" icon={<PersonPin />} />
-                <Tab label="Liked flats" icon={<Favorite />} />
-                <Tab label="Recently watched flats" icon={<TimelapseOutlined />} />
-                <Tab label="About us" icon={<Help />} />
+                <Tab label="О вас" icon={<PersonPin />} />
+                <Tab label="Понравивишиеся квартиры" icon={<Favorite />} />
+                <Tab label="Просмотренные недавно квартиры" icon={<TimelapseOutlined />} />
+                <Tab label="О нас" icon={<Help />} />
               </Tabs>
             </AppBar>
             {value === 0 && <TabContainer><UserInfo /></TabContainer>}
             {value === 1 && <TabContainer><FavoriteFlats /></TabContainer>}
-            {value === 2 && <TabContainer><RecentlyWatchedFlats cookies={this.props.cookies} /></TabContainer>}
+            {value === 2 && <TabContainer><RecentlyWatchedFlats /></TabContainer>}
             {value === 3 && <TabContainer><AboutUs /></TabContainer>}
           </div>
         </MuiThemeProvider>

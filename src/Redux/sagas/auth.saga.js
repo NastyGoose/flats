@@ -13,7 +13,7 @@ export function* setCurrentUserAsync(action) {
       type: SET_CURRENT_USER_SUCCEEDED,
       payload: {
         decodedToken: action.payload,
-        favoriteFlats: favFlats.data,
+        favoriteFlats: favFlats.data.payload,
       },
     });
   } catch (error) {

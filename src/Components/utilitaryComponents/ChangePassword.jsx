@@ -42,11 +42,11 @@ class ModalExample extends React.Component {
   render() {
     return (
       <div>
-        <Modal isOpen={!this.props.passwordValid} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+          <ModalHeader toggle={this.toggle}>Подтверждение</ModalHeader>
           <ModalBody>
             <h3 align="center">
-              Type your old password
+              Введите свой текущий пароль
             </h3>
             <div align="center">
               <TextField

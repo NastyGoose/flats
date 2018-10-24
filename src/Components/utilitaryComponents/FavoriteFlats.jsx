@@ -24,8 +24,15 @@ const styles = theme => ({
 class FavoriteFlats extends React.PureComponent {
   get Flats() {
     const props = this.props.favoriteFlats ? this.props.favoriteFlats : [];
-    if (props.length > 0) {
-      return <Cards flats={props} />;
+    if (this.props) {
+      if (props.length > 0) {
+        return <Cards flats={props} />;
+      }
+      return (
+        <h1 align="center">
+          У вас еще нет любимых квартир!
+        </h1>
+      );
     }
     return <Loader />;
   }
@@ -42,7 +49,7 @@ class FavoriteFlats extends React.PureComponent {
             variant="h5"
             component="h3"
           >
-            Your favorite flats!
+           Отмеченные квартиры!
           </Typography>
           <Typography component="p">
             {this.Flats}

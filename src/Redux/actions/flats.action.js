@@ -1,5 +1,5 @@
 import {
-  GET_FLATS, GET_BY_ID, ADD_FAVORITE, REMOVE_FAVORITE,
+  GET_FLATS, GET_BY_ID, ADD_FAVORITE, REMOVE_FAVORITE, FIND_FLAT,
 } from '../constants';
 
 export const getFlats = payload => ({
@@ -25,5 +25,12 @@ export const removeFavorite = flat => ({
   type: REMOVE_FAVORITE,
   payload: {
     flat,
+  },
+});
+
+export const findFlat = address => ({
+  type: FIND_FLAT,
+  payload: {
+    address,
   },
 });

@@ -8,7 +8,6 @@ import {
 } from 'reactstrap';
 import Icon from '@mdi/react';
 import { mdiHeartOutline, mdiHeart } from '@mdi/js';
-import InfiniteScroll from 'react-infinite-scroller';
 // redux stuff
 import { bindActionCreators } from 'redux';
 import connect from 'react-redux/es/connect/connect';
@@ -25,7 +24,7 @@ class Cards extends React.Component {
   };
 
   componentWillMount() {
-    if (this.props.favoriteFlats) {
+    if (this.props.favoriteFlats && Array.isArray(this.props.favoriteFlats)) {
       this.setState({
         idArr: this.props.favoriteFlats.map(curr => curr._id),
       });
@@ -68,6 +67,10 @@ class Cards extends React.Component {
   };
 
   render() {
+    if (!Array.isArray(this.props.flats)) {
+      return (
+        <h1 style={{ margin: 'auto' }} align="center">{this.props.flats}</h1>);
+    }
     return this.props.flats.map(curr => (
       <Card key={curr.id}>
         <CardImg
@@ -93,7 +96,7 @@ class Cards extends React.Component {
           <CardText>
             {curr.Description}
           </CardText>
-          <Button onClick={() => this.handleLearnClick(curr._id)} target="_blank" href={curr.URL}> Learn more! </Button>
+          <Button onClick={() => this.handleLearnClick(curr._id)} target="_blank" href={curr.URL}> Подробнее! </Button>
           {this.props.isAuthenticated ? (
             <Icon
               onClick={() => this.handleLikeClick(curr)}

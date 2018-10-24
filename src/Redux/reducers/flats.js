@@ -1,4 +1,6 @@
-import { FETCH_BY_ID_SUCCEEDED, FETCH_SUCCEEDED, FETCH_FAILED } from '../constants';
+import {
+  FETCH_BY_ID_SUCCEEDED, FETCH_SUCCEEDED, FETCH_FAILED, FLATS_FOUND_SUCCESSFULLY,
+} from '../constants';
 
 // noinspection JSAnnotator
 const initialState = {
@@ -6,11 +8,6 @@ const initialState = {
   pages: {
     startIndex: undefined,
     endIndex: undefined,
-  },
-  filter: {
-    sortBy: 'Price',
-    orderBy: -1,
-    chunksSize: 20,
   },
 };
 
@@ -33,6 +30,18 @@ export default (state = initialState, action) => {
       };
     case FETCH_FAILED:
       return [...state, ...action.payload];
+    case FLATS_FOUND_SUCCESSFULLY:
+      console.log(action);
+      if (action.payload.data.success) {
+        return {
+          ...state,
+          flatsList: [...action.payload.data.payload],
+        };
+      }
+      return {
+        ...state,
+        flatsList: action.payload.data.message,
+      };
     default:
       return state;
   }

@@ -5,16 +5,23 @@ const initialState = {
   sortBy: 'Price',
   orderBy: '-1',
   chunksSize: 20,
+  minPrice: 0,
+  maxPrice: 999,
 };
+
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case CHANGE_FILTER_VALUES:
+      console.log(action);
       return {
         ...state,
-        sortBy: action.payload.sort,
-        orderBy: action.payload.order,
-        chunksSize: action.payload.chunksSize,
+        sortBy: action.payload.filter.sortBy,
+        orderBy: action.payload.filter.orderBy,
+        chunksSize: action.payload.filter.chunksSize,
+        minPrice: action.payload.filter.minPrice,
+        maxPrice: action.payload.filter.maxPrice,
+        pageIndex: 0,
       };
     case PAGE_INDEX:
       return {

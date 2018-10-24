@@ -76,6 +76,7 @@ class Header extends PureComponent {
     }
     return (
       <FontAwesomeIcon
+        onClick={() => alert('Сначала войдите в существующий или создайте новый аккаунт!')}
         icon={faUser}
       />
     );
