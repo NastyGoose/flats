@@ -7,6 +7,7 @@ import { TextField } from '@material-ui/core';
 import { bindActionCreators } from 'redux';
 import connect from 'react-redux/es/connect/connect';
 import PropTypes from 'prop-types';
+import { changeModalState } from '../../Redux/actions/settings.action';
 import { checkPassword } from '../../Redux/actions/auth.action';
 
 class ModalExample extends React.Component {
@@ -14,35 +15,26 @@ class ModalExample extends React.Component {
     password: '',
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      modal: true,
-    };
-    this.toggle = this.toggle.bind(this);
-  }
-
   handleChange = () => (event) => {
     this.setState({
       password: event.target.value,
     });
   };
 
-  toggle() {
-    this.setState({
-      modal: !this.state.modal,
-    });
-  }
+  toggle = () => {
+    this.props.changeModalState(false);
+  };
 
   submit(password) {
     this.props.checkPassword(this.props.email, password);
-    console.log(this.props.passwordValid);
+    if (this.props.passwordValid) this.props.changeModalState(false);
   }
 
   render() {
+    if (this.props.passwordValid) return null;
     return (
       <div>
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+        <Modal isOpen={this.props.modalState} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Подтверждение</ModalHeader>
           <ModalBody>
             <h3 align="center">
@@ -51,7 +43,7 @@ class ModalExample extends React.Component {
             <div align="center">
               <TextField
                 id="filled-read-only-input"
-                label="Password"
+                label="Пароль"
                 value={this.state.password}
                 type="text"
                 onChange={this.handleChange()}
@@ -60,9 +52,9 @@ class ModalExample extends React.Component {
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={() => this.submit(this.state.password)}>Do Something</Button>
+            <Button color="primary" onClick={() => this.submit(this.state.password)}>Подтвердить</Button>
             {' '}
-            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+            <Button color="secondary" onClick={this.toggle}>Отменить</Button>
           </ModalFooter>
         </Modal>
       </div>
@@ -74,16 +66,21 @@ function mapStateToProps(state, ownProps) {
   return {
     passwordValid: state.auth.passwordValid,
     email: ownProps.email,
+    modalState: state.actions.modalState,
   };
 }
+
 
 function mapDispatchToProps(dispatch) {
   return {
     checkPassword: bindActionCreators(checkPassword, dispatch),
+    changeModalState: bindActionCreators(changeModalState, dispatch),
   };
 }
 
 ModalExample.propTypes = {
+  changeModalState: PropTypes.func.isRequired,
+  modalState: PropTypes.bool.isRequired,
   email: PropTypes.string.isRequired,
   checkPassword: PropTypes.func.isRequired,
   passwordValid: PropTypes.bool.isRequired,

@@ -22,6 +22,7 @@
     "react/forbid-prop-types": "off",
     "prefer-destructuring": "off",
     "no-underscore-dangle": "off",
-    "max-len": "off"
+    "max-len": "off",
+    "linebreak-style": "off"
   }
 }

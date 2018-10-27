@@ -28,6 +28,7 @@ class MainPage extends PureComponent {
       chunksSize: this.props.chunksSize,
       minPrice: this.props.minPrice,
       maxPrice: this.props.maxPrice,
+      address: this.props.address,
     };
     if (this.props.index !== this.page - 1) {
       this.props.changeIndex({
@@ -44,7 +45,8 @@ class MainPage extends PureComponent {
 
   get Pages() {
     const pages = [];
-    for (let i = this.props.pagesIndexes.startIndex; i <= this.props.pagesIndexes.endIndex; i++) {
+    for (let i = this.props.pagesIndexes.startIndex; i
+    <= (this.props.lastIndex < this.props.pagesIndexes.endIndex ? this.props.lastIndex : this.props.pagesIndexes.endIndex); i++) {
       pages[i] = (
         <PaginationItem active={i === this.props.index}>
           <Link to={`/page=${i + 1}`}>
@@ -54,6 +56,7 @@ class MainPage extends PureComponent {
                 this.props.changeIndex({
                   index: i,
                   filter: {
+                    address: this.props.address,
                     orderBy: this.props.orderBy,
                     sortBy: this.props.sortBy,
                     chunksSize: this.props.chunksSize,
@@ -113,6 +116,7 @@ class MainPage extends PureComponent {
                   this.props.changeIndex({
                     index: 0,
                     filter: {
+                      address: this.props.address,
                       orderBy: this.props.orderBy,
                       sortBy: this.props.sortBy,
                       chunksSize: this.props.chunksSize,
@@ -135,6 +139,7 @@ class MainPage extends PureComponent {
                   this.props.changeIndex({
                     index: this.props.lastIndex,
                     filter: {
+                      address: this.props.address,
                       orderBy: this.props.orderBy,
                       sortBy: this.props.sortBy,
                       chunksSize: this.props.chunksSize,
@@ -156,6 +161,7 @@ class MainPage extends PureComponent {
 
 function mapStateToProps(state) {
   return {
+    address: state.actions.address,
     minPrice: state.actions.minPrice,
     maxPrice: state.actions.maxPrice,
     favoriteFlats: state.auth.favoriteFlats,
@@ -186,6 +192,7 @@ MainPage.propTypes = {
   index: PropTypes.number.isRequired,
   lastIndex: PropTypes.number.isRequired,
   sortBy: PropTypes.string.isRequired,
+  address: PropTypes.string.isRequired,
   flats: PropTypes.arrayOf(PropTypes.shape({
     address: PropTypes.string,
   })).isRequired,

@@ -9,11 +9,13 @@ import { Edit } from '@material-ui/icons';
 // redux stuff
 import { bindActionCreators } from 'redux';
 import connect from 'react-redux/es/connect/connect';
+import { changeModalState } from '../../Redux/actions/settings.action';
 import { changeData } from '../../Redux/actions/auth.action';
 // local imports
 import CustomizedTable from './StatTable';
 import { userInfo } from '../styles/stylesheet';
 import ModalExample from './ChangePassword';
+import { validateChange } from '../utilitaryLogic/passwordValidation';
 
 class UserInfo extends React.PureComponent {
   state = {
@@ -25,26 +27,41 @@ class UserInfo extends React.PureComponent {
     passwordStatus: true,
   };
 
-  showPassword = () => {
-    if (!this.props.passwordValid) {
-      this.setState({
-        passwordStatus: false,
-      });
+  handlePasswordChange = () => {
+    if (this.props.passwordValid) {
+      console.log('here');
+      if (this.state.passwordStatus) {
+        this.setState({
+          passwordStatus: false,
+        });
+      } else {
+        const response = validateChange('password', this.state.password);
+        if (!response.error) {
+          this.props.changeData({
+            password: this.state.password ? this.state.password : 'qwerty',
+          });
+          this.setState({
+            passwordStatus: true,
+          });
+        } else {
+          alert(response.error);
+          this.setState({
+            passwordStatus: true,
+          });
+        }
+      }
+    } else {
+      this.props.changeModalState(true);
     }
   };
 
-  handlePasswordChange = payload => () => {
-
-  };
-
   handleClick = payload => () => {
-    console.log(payload);
     if (this.state[payload.status]) {
       this.setState({
         [payload.status]: false,
       });
     } else {
-      console.log(this.state.password);
+      console.log(validateChange(payload.name, this.state[payload.name]));
       this.props.changeData({
         [payload.name]: this.state[payload.name] ? this.state[payload.name] : this.props[payload.name],
       });
@@ -72,10 +89,7 @@ class UserInfo extends React.PureComponent {
     const name = <text style={{ color: 'indianred' }}>{this.props.login}</text>;
     return (
       [
-        <div>
-          {this.state.passwordStatus ? null : <ModalExample email={this.props.email} />}
-        </div>,
-
+        <ModalExample email={this.props.email} />,
         <Typography
           style={{
             padding: '20px',
@@ -164,12 +178,8 @@ class UserInfo extends React.PureComponent {
                   }}
                 />
                 <IconButton
-                  onClick={this.props.passwordValid ? this.handleClick({
-                    name: 'password',
-                    status: 'passwordStatus',
-                  }) : this.showPassword}
+                  onClick={this.handlePasswordChange}
                   className={classes.changeIcon}
-                  aria-label="Delete"
                   color={this.state.passwordStatus ? 'inherit' : 'secondary'}
                 >
                   <Edit />
@@ -196,11 +206,13 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    changeModalState: bindActionCreators(changeModalState, dispatch),
     changeData: bindActionCreators(changeData, dispatch),
   };
 }
 
 UserInfo.propTypes = {
+  changeModalState: PropTypes.func.isRequired,
   changeData: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   email: PropTypes.string.isRequired,

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 // material-ui stuff
 import { MuiThemeProvider, withStyles, createMuiTheme } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import Icon from '@material-ui/core/Icon';
 import {
   TextField, Typography, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelActions, ExpansionPanelSummary,
   Button, Divider, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel,
@@ -48,10 +47,6 @@ const customTheme = createMuiTheme({
         },
       },
     },
-    MuiFormControl: {
-      root: {
-      },
-    },
   },
 });
 
@@ -90,6 +85,7 @@ class Settings extends React.Component {
       chunksSize: this.state.chunksSize,
       minPrice: this.state.minPrice,
       maxPrice: this.state.maxPrice,
+      address: this.state.findField,
     };
     this.props.changeFilter({
       filter,
@@ -98,7 +94,7 @@ class Settings extends React.Component {
   };
 
   findFlat = () => {
-    this.props.findFlat(this.state.findField);
+    this.props.findFlat(this.state.findField, this.state.chunksSize, );
   };
 
   render() {
@@ -176,17 +172,14 @@ class Settings extends React.Component {
                 id="outlined-full-width"
                 label="Найти"
                 style={{ margin: 8, width: '80%' }}
-                placeholder="Адресс"
-                helperText="Впишите сюда искомый адресс!"
+                placeholder="Адрес"
+                helperText="Впишите сюда искомый адрес!"
                 margin="normal"
                 variant="outlined"
                 InputLabelProps={{
                   shrink: true,
                 }}
               />
-              <Button onClick={this.findFlat} variant="fab" color="secondary" className={classes.button}>
-                <Icon>search_icon</Icon>
-              </Button>
             </div>
             <div className={classes.prices}>
               <TextField

@@ -18,11 +18,12 @@ function PaperSheet(props) {
   return (
     <div>
       <Paper className={classes.root} elevation={1}>
-        <Typography variant="h5" component="h3">
-          This component should display info about this app.
+        <Typography align="center" variant="h5" component="h3">
+          Добро пожаловать!
         </Typography>
         <Typography component="p">
-          Paper can be used to build surface or other elements for your application.
+          Этот сервис создан при помощи React, Express, Mongo и Node.js.
+          Суть приложения заключается в парсинге данных с других сайтов по сьему жилья и обработки этой информации.
         </Typography>
       </Paper>
     </div>

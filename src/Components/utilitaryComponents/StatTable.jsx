@@ -54,7 +54,6 @@ const rows = props => [
 
 function CustomizedTable(props) {
   const { classes } = props;
-  console.log(props);
   return (
     [<Typography
       align="center"

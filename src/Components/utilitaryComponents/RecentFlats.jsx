@@ -3,8 +3,7 @@ import PropTypes, { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 // material-ui and reactstrap stuff
 import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import { Paper, Typography, Button } from '@material-ui/core';
 import { DeleteOutlineTwoTone } from '@material-ui/icons';
 // redux stuff
 import { connect } from 'react-redux';
@@ -14,6 +13,7 @@ import { getById } from '../../Redux/actions/flats.action';
 // local imports
 import Loader from './RadialLoader';
 import Cards from './Card';
+import lodash from 'lodash';
 
 const styles = theme => ({
   root: {
@@ -43,10 +43,9 @@ class RecentFlats extends React.PureComponent {
   }
 
   get Flats() {
-    const props = this.props.recentFlats ? this.props.recentFlats : [];
-    if (this.props) {
-      if (props.length > 0) {
-        return <Cards flats={props} />;
+    if (this.props.recentFlats) {
+      if (this.props.recentFlats.length > 0) {
+        return <Cards flats={lodash.slice(this.props.recentFlats, 0, this.state.lastIndex)} />;
       }
       return (
         <h1 align="center">
@@ -59,6 +58,22 @@ class RecentFlats extends React.PureComponent {
     );
   }
 
+  get DeleteIcon() {
+    if (this.props.recentFlats && this.props.recentFlats.length > 0) {
+      return (
+        <DeleteOutlineTwoTone
+          fontSize="50px"
+          nativeColor="indianred"
+          style={{
+            cursor: 'pointer',
+          }}
+          onClick={this.removeRecent}
+        />
+      );
+    }
+    return null;
+  }
+
   removeRecent = () => {
     const { cookies } = this.props;
     cookies.remove('recentIDs');
@@ -68,6 +83,7 @@ class RecentFlats extends React.PureComponent {
   };
 
   render() {
+    console.log(this.props.recentFlats);
     return (
       <div>
         <Paper className="RecentFlats" elevation={1}>
@@ -81,17 +97,19 @@ class RecentFlats extends React.PureComponent {
           >
             Квартиры которые вы недавно просматривали!
             <br />
-            <DeleteOutlineTwoTone
-              fontSize="50px"
-              nativeColor="indianred"
-              style={{
-                cursor: 'pointer',
-              }}
-              onClick={this.removeRecent}
-            />
+            { this.DeleteIcon }
           </Typography>
-          {this.state.isDeleted ? <h1 align="center"> Your history was deleted! </h1> : this.Flats}
-        </Paper>
+          {this.state.isDeleted ? <h1 align="center"> Ваша история просмотров теперь пуста! </h1> : this.Flats}
+          <Button
+            disabled={this.props.recentFlats && this.props.recentFlats.length < 6}
+            color="secondary"
+            onClick={() => this.setState(state => ({
+              lastIndex: state.lastIndex + 5,
+            }))}
+          >
+            Показать еще!
+          </Button>
+          </Paper>
       </div>
     );
   }

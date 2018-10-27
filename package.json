@@ -18,22 +18,22 @@
     "cross-env": "^5.2.0",
     "gsap": "^2.0.2",
     "history": "^4.7.2",
+    "joi-browser": "^13.4.0",
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.11",
-    "password-validator": "^4.1.1",
-    "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-cookie": "^3.0.4",
     "react-dom": "^16.4.1",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^1.1.4",
     "reactstrap": "^6.5.0",
     "redux": "^4.0.0",
     "redux-saga": "^0.16.0",
     "reselect": "^3.0.1"
   },
   "devDependencies": {
+    "react-scripts": "^1.1.4",
+    "prop-types": "^15.6.2",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-jest": "^23.4.2",
@@ -79,8 +79,8 @@
     "uglify-es": "^3.3.9"
   },
   "scripts": {
-    "start": "cross-env REACT_APP_FLATS_HOST=https://flats-backend.herokuapp.com/ react-scripts start",
-    "build": "cross-env REACT_APP_FLATS_HOST=https://flats-backend.herokuapp.com/ react-scripts build",
+    "start": "cross-env REACT_APP_FLATS_HOST=http://localhost:8080 react-scripts start",
+    "build": "cross-env REACT_APP_FLATS_HOST=http://localhost:8080 react-scripts build",
     "test": "jest",
     "coverage": "jest --coverage && cat ./coverage/lcov.info | codacy-coverage --token= echo %CODACY_COVERAGE_TOKEN%",
     "eject": "react-scripts eject"

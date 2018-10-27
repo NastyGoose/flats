@@ -21,7 +21,7 @@ export default class API {
   static getFlats = (payload) => {
     console.log(payload);
     return axios
-      .get(`${host}/flats?sort=${payload.filter.sortBy}&order=${payload.filter.orderBy}&chunkSize=${payload.filter.chunksSize}&minPrice=${payload.filter.minPrice}&maxPrice=${payload.filter.maxPrice}&page=${payload.index}`)
+      .get(`${host}/flats?sort=${payload.filter.sortBy}&order=${payload.filter.orderBy}&chunkSize=${payload.filter.chunksSize}&minPrice=${payload.filter.minPrice}&maxPrice=${payload.filter.maxPrice}&page=${payload.index}&address=${payload.filter.address}`)
       .then((res) => {
         console.log('response: ', res);
         return res;
@@ -88,7 +88,6 @@ export default class API {
         if (response.data.success) {
           localStorage.setItem('jwtToken', response.data.token);
           setAuthorizationToken(response.data.token);
-          // window.location.href = 'http://localhost:3000/';
           return {
             token: jwt.decode(response.data.token),
             favoriteFlats: response.data.favoriteFlats,
@@ -136,7 +135,7 @@ export default class API {
 
   static findFlat = (payload) => {
     console.log(payload);
-    const url = `${host}/findFlat/${payload.address}`;
+    const url = `${host}/findFlat/${payload.address}/${payload.chunksSize}`;
     return axios.get(url)
       .then((response) => {
         console.log(response);

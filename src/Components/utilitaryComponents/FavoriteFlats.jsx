@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withCookies } from 'react-cookie';
+import lodash from 'lodash';
 // material-ui and reactstrap
 import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import { Paper, Typography, Button } from '@material-ui/core';
 import connect from 'react-redux/es/connect/connect';
 // redux stuff
 import { bindActionCreators } from 'redux';
@@ -22,11 +21,14 @@ const styles = theme => ({
 });
 
 class FavoriteFlats extends React.PureComponent {
+  state = {
+    lastIndex: 5,
+  };
+
   get Flats() {
-    const props = this.props.favoriteFlats ? this.props.favoriteFlats : [];
-    if (this.props) {
-      if (props.length > 0) {
-        return <Cards flats={props} />;
+    if (this.props.favoriteFlats) {
+      if (this.props.favoriteFlats.length > 0) {
+        return <Cards flats={lodash.slice(this.props.favoriteFlats, 0, this.state.lastIndex)} />;
       }
       return (
         <h1 align="center">
@@ -54,7 +56,15 @@ class FavoriteFlats extends React.PureComponent {
           <Typography component="p">
             {this.Flats}
           </Typography>
-
+          <Button
+            disabled={this.props.favoriteFlats.length && this.props.favoriteFlats.length < 6}
+            color="secondary"
+            onClick={() => this.setState(state => ({
+              lastIndex: state.lastIndex + 5,
+            }))}
+          >
+          Показать еще!
+          </Button>
         </Paper>
       </div>
     );

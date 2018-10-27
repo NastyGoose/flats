@@ -29,17 +29,16 @@ class RadialLoader extends React.PureComponent {
           ? (
             <h1 align="center">
               {' '}
-              Oops!
+              Упс!
               <br />
               {' '}
-              Something gone wrong!
+              Что-то пошло не так!
               {' '}
             </h1>
           )
           : (
             <CircularProgress className={classes.progress} size={150} style={{ color: 'indianred' }}>
               {setTimeout(() => {
-                console.log('timehascome!');
                 this.setState({
                   outOfTime: true,
                 });

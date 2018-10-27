@@ -16,6 +16,7 @@ export const GET_BY_ID = 'GET_BY_ID';
 // settings actions
 export const FILTER_CHANGED = 'FILTER_CHANGED';
 export const PAGE_INDEX = 'PAGE_INDEX';
+export const CHANGE_MODAL_STATE = 'CHANGE_MODAL_STATE';
 
 // auth saga
 export const SET_CURRENT_USER_SUCCEEDED = 'SET_CURRENT_USER_SUCCEEDED';

@@ -19,14 +19,26 @@ export default (state = initialState, action) => {
         recentFlats: [...action.payload.data],
       };
     case FETCH_SUCCEEDED:
+      console.log(action);
+      if (action.payload.data.success) {
+        return {
+          ...state,
+          flatsList: [...action.payload.data.flats],
+          pages: {
+            startIndex: action.payload.data.pagesIndexes.startIndex,
+            endIndex: action.payload.data.pagesIndexes.endIndex,
+          },
+          lastIndex: action.payload.data.lastIndex,
+        };
+      }
       return {
         ...state,
-        flatsList: [...action.payload.data.flats],
+        flatsList: action.payload.data.flats,
         pages: {
-          startIndex: action.payload.data.pagesIndexes.startIndex,
-          endIndex: action.payload.data.pagesIndexes.endIndex,
+          startIndex: 0,
+          endIndex: 0,
         },
-        lastIndex: action.payload.data.lastIndex,
+        lastIndex: 0,
       };
     case FETCH_FAILED:
       return [...state, ...action.payload];
@@ -35,7 +47,12 @@ export default (state = initialState, action) => {
       if (action.payload.data.success) {
         return {
           ...state,
-          flatsList: [...action.payload.data.payload],
+          flatsList: [...action.payload.data.payload.flats],
+          pages: {
+            startIndex: action.payload.data.payload.pagesIndexes.startIndex,
+            endIndex: action.payload.data.payload.pagesIndexes.endIndex,
+          },
+          lastIndex: action.payload.data.payload.lastIndex,
         };
       }
       return {

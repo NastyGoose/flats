@@ -28,9 +28,10 @@ export const removeFavorite = flat => ({
   },
 });
 
-export const findFlat = address => ({
+export const findFlat = (address, chunksSize) => ({
   type: FIND_FLAT,
   payload: {
     address,
+    chunksSize,
   },
 });

@@ -15,18 +15,21 @@ class RegisterPage extends PureComponent {
   handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
-    const email = form.elements.email.value;
-    const login = form.elements.login.value;
-    const password = form.elements.password.value;
-    const confirmPassword = form.elements.confirmPassword.value;
+    const user = {
+      email: form.elements.email.value,
+      login: form.elements.login.value,
+      password: form.elements.password.value,
+    };
 
-    if (validate(password).length < 1) {
-      if (confirmPassword === password) {
-        this.props.signUp(login, email, password);
-      } else alert('Wrong password confirmation!');
+    const confirmPassword = form.elements.confirmPassword.value;
+    const validateResult = validate(user);
+
+    if (validateResult.error === null) {
+      if (confirmPassword === user.password) {
+        this.props.signUp(user.login, user.email, user.password);
+      } else { alert('Пароли не совпадают!'); }
     } else {
-      alert('Bad password');
-      console.log(validate(password));
+      alert(validateResult.error);
     }
   };
 
@@ -45,7 +48,7 @@ class RegisterPage extends PureComponent {
             <Input
               name="login"
               type="text"
-              placeholder="type your login here!"
+              placeholder="придумайте что-нибудь экстраординарное!"
             />
           </InputGroup>
           <br />
@@ -54,7 +57,7 @@ class RegisterPage extends PureComponent {
             <Input
               name="email"
               type="email"
-              placeholder="now e-mail :)"
+              placeholder="теперь почту"
             />
           </InputGroup>
           <br />
@@ -63,7 +66,7 @@ class RegisterPage extends PureComponent {
             <Input
               name="password"
               type="password"
-              placeholder="finally, password"
+              placeholder="самое сложное"
             />
           </InputGroup>
           <br />
@@ -72,7 +75,7 @@ class RegisterPage extends PureComponent {
             <Input
               name="confirmPassword"
               type="password"
-              placeholder="and one more time"
+              placeholder="и еще разок"
             />
           </InputGroup>
           <br />

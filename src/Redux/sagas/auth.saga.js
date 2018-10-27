@@ -38,7 +38,7 @@ export function* signInAsync(action) {
       type: SET_CURRENT_USER_SUCCEEDED,
       payload: {
         decodedToken: payload.token,
-        favoriteFlats: favoriteFlats.data,
+        favoriteFlats: favoriteFlats.data.payload,
       },
     });
   } catch (error) {

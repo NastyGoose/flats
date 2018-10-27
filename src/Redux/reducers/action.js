@@ -1,4 +1,4 @@
-import { PAGE_INDEX, CHANGE_FILTER_VALUES } from '../constants';
+import { PAGE_INDEX, CHANGE_FILTER_VALUES, CHANGE_MODAL_STATE } from '../constants';
 
 const initialState = {
   pageIndex: 0,
@@ -7,6 +7,8 @@ const initialState = {
   chunksSize: 20,
   minPrice: 0,
   maxPrice: 999,
+  address: '',
+  modalState: false,
 };
 
 
@@ -21,12 +23,19 @@ export default (state = initialState, action) => {
         chunksSize: action.payload.filter.chunksSize,
         minPrice: action.payload.filter.minPrice,
         maxPrice: action.payload.filter.maxPrice,
+        address: action.payload.filter.address,
         pageIndex: 0,
       };
     case PAGE_INDEX:
       return {
         ...state,
         pageIndex: action.payload.index,
+      };
+    case CHANGE_MODAL_STATE:
+      console.log(action);
+      return {
+        ...state,
+        modalState: action.payload,
       };
     default:
       return state;
