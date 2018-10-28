@@ -57,7 +57,7 @@ class FavoriteFlats extends React.PureComponent {
             {this.Flats}
           </Typography>
           <Button
-            disabled={this.props.favoriteFlats.length && this.props.favoriteFlats.length < 6}
+            disabled={!this.props.favoriteFlats.length || this.props.favoriteFlats.length < 6}
             color="secondary"
             onClick={() => this.setState(state => ({
               lastIndex: state.lastIndex + 5,

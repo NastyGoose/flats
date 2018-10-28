@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import lodash from 'lodash';
 // material-ui stuff
 import { MuiThemeProvider, withStyles, createMuiTheme } from '@material-ui/core/styles';
 import classNames from 'classnames';
@@ -53,7 +54,7 @@ const customTheme = createMuiTheme({
 class Settings extends React.Component {
   state = {
     sortBy: '',
-    orderBy: null,
+    orderBy: '',
     chunksSize: 20,
     findField: '',
     minPrice: 0,
@@ -65,7 +66,7 @@ class Settings extends React.Component {
   };
 
   handleOrderChange = (event) => {
-    this.setState({ orderBy: parseInt(event.target.value, 10) });
+    this.setState({ orderBy: event.target.value });
   };
 
   handleSliderChange = (event, value) => {
@@ -77,6 +78,24 @@ class Settings extends React.Component {
       [name]: event.target.value,
     });
   };
+
+  handleFindChange = lodash.debounce((text) => {
+    this.setState({
+      findField: text,
+    });
+    const filter = {
+      sortBy: this.state.sortBy,
+      orderBy: this.state.orderBy,
+      chunksSize: this.state.chunksSize,
+      minPrice: this.state.minPrice,
+      maxPrice: this.state.maxPrice,
+      address: this.state.findField,
+    };
+    this.props.changeFilter({
+      filter,
+      index: 0,
+    });
+  }, 1000);
 
   handleClick = () => {
     const filter = {
@@ -94,7 +113,7 @@ class Settings extends React.Component {
   };
 
   findFlat = () => {
-    this.props.findFlat(this.state.findField, this.state.chunksSize, );
+    this.props.findFlat(this.state.findField, this.state.chunksSize);
   };
 
   render() {
@@ -134,8 +153,8 @@ class Settings extends React.Component {
                     value={this.state.orderBy}
                     onChange={this.handleOrderChange}
                   >
-                    <FormControlLabel value={1} control={<Radio />} label="Возрастающем" />
-                    <FormControlLabel value={-1} control={<Radio />} label="Убывающем" />
+                    <FormControlLabel value="asc" control={<Radio />} label="Возрастающем" />
+                    <FormControlLabel value="desc" control={<Radio />} label="Убывающем" />
                   </RadioGroup>
                 </FormControl>
               </div>
@@ -167,8 +186,8 @@ class Settings extends React.Component {
             </ExpansionPanelDetails>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <TextField
-                onChange={this.handleChange('findField')}
-                value={this.state.findField}
+                onChange={e => this.handleFindChange(e.target.value)}
+
                 id="outlined-full-width"
                 label="Найти"
                 style={{ margin: 8, width: '80%' }}
