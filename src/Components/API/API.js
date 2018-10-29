@@ -2,11 +2,13 @@ import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import setAuthorizationToken from '../utilitaryLogic/setAuthorizationToken';
 
+const host = process.env.REACT_APP_API_URL;
+
 export default class API {
   static getById = (payload) => {
     console.log(payload);
     return axios
-      .get(`api/database/getById/${JSON.stringify(payload)}`)
+      .get(`${host}/api/database/getById/${JSON.stringify(payload)}`)
       .then((res) => {
         console.log('response: ', res);
         return res;
@@ -19,7 +21,7 @@ export default class API {
   static getFlats = (payload) => {
     console.log(payload);
     return axios
-      .get(`api/database/getFlats?sort=${payload.filter.sortBy}&order=${payload.filter.orderBy}&chunkSize=${payload.filter.chunksSize}&minPrice=${payload.filter.minPrice}&maxPrice=${payload.filter.maxPrice}&page=${payload.index}&address=${payload.filter.address}`)
+      .get(`${host}/api/database/getFlats?sort=${payload.filter.sortBy}&order=${payload.filter.orderBy}&chunkSize=${payload.filter.chunksSize}&minPrice=${payload.filter.minPrice}&maxPrice=${payload.filter.maxPrice}&page=${payload.index}&address=${payload.filter.address}`)
       .then((res) => {
         console.log('response: ', res);
         return res;
@@ -31,7 +33,7 @@ export default class API {
 
   static addFavoriteFlat = (id) => {
     const { email } = jwt.decode(localStorage.jwtToken);
-    axios.post('api/database/newFavorite', {
+    axios.post(`${host}/api/database/newFavorite`, {
       email,
       id,
     })
@@ -44,7 +46,7 @@ export default class API {
     const newData = payload;
     newData.oldEmail = jwt.decode(localStorage.getItem('jwtToken')).email;
     console.log(newData);
-    return axios.post('/api/account/changeData', {
+    return axios.post(`${host}/api/account/changeData`, {
       newData,
     })
       .then((res) => {
@@ -56,7 +58,7 @@ export default class API {
 
   static removeFavoriteFlat = (id) => {
     const { email } = jwt.decode(localStorage.jwtToken);
-    axios.post('api/database/removeFavorite', {
+    axios.post(`${host}/api/database/removeFavorite`, {
       email,
       id,
     })
@@ -67,7 +69,7 @@ export default class API {
 
   static getFavoriteFlats = () => {
     const { email } = jwt.decode(localStorage.jwtToken);
-    return axios.get(`api/database/getFavorite/${email}`)
+    return axios.get(`${host}/api/database/getFavorite/${email}`)
       .then((res) => {
         console.log(res);
         return res;
@@ -77,7 +79,7 @@ export default class API {
   static signIn = (email, password) => {
     console.log('email: ', email);
     console.log('password: ', password);
-    return axios.post('/api/account/signin', {
+    return axios.post(`${host}/api/account/signin`, {
       email,
       password,
     })
@@ -98,7 +100,7 @@ export default class API {
       });
   };
 
-  static signUp = (email, login, password) => axios.post('/api/account/signup', {
+  static signUp = (email, login, password) => axios.post(`${host}/api/account/signup`, {
     email,
     login,
     password,
@@ -112,7 +114,7 @@ export default class API {
     });
 
   static logout = () => {
-    const url = `/api/account/logout?token=${localStorage.jwtToken}`;
+    const url = `${host}/api/account/logout?token=${localStorage.jwtToken}`;
     localStorage.removeItem('jwtToken');
     axios.get(url)
       .then((response) => {
@@ -122,7 +124,7 @@ export default class API {
   };
 
   static checkPassword = (email, password) => {
-    const url = `/api/account/checkPassword/${email}/${password}`;
+    const url = `${host}/api/account/checkPassword/${email}/${password}`;
     return axios.get(url)
       .then((response) => {
         console.log(response);
@@ -133,7 +135,7 @@ export default class API {
 
   static findFlat = (payload) => {
     console.log(payload);
-    const url = `/api/database/findFlat/${payload.address}/${payload.chunksSize}`;
+    const url = `${host}/api/database/findFlat/${payload.address}/${payload.chunksSize}`;
     return axios.get(url)
       .then((response) => {
         console.log(response);
