@@ -53,17 +53,35 @@ const customTheme = createMuiTheme({
 
 class Settings extends React.Component {
   state = {
-    sortBy: '',
-    orderBy: '',
+    sortBy: undefined,
+    orderBy: undefined,
     chunksSize: 20,
     findField: '',
     minPrice: 0,
     maxPrice: 999,
   };
 
-  handleSortChange = (event) => {
-    this.setState({ sortBy: event.target.value });
-  };
+  handleFindChange = lodash.debounce((text) => {
+    if ((this.state.orderBy && this.state.sortBy) || (!this.state.orderBy && !this.state.sortBy)) {
+      this.setState({
+        findField: text,
+      });
+      const filter = {
+        sortBy: this.state.sortBy,
+        orderBy: this.state.orderBy,
+        chunksSize: this.state.chunksSize,
+        minPrice: this.state.minPrice,
+        maxPrice: this.state.maxPrice,
+        address: this.state.findField,
+      };
+      this.props.changeFilter({
+        filter,
+        index: 0,
+      });
+    } else {
+      alert('Выберите сортировку и её порядок!');
+    }
+  }, 1000);
 
   handleOrderChange = (event) => {
     this.setState({ orderBy: event.target.value });
@@ -79,37 +97,27 @@ class Settings extends React.Component {
     });
   };
 
-  handleFindChange = lodash.debounce((text) => {
-    this.setState({
-      findField: text,
-    });
-    const filter = {
-      sortBy: this.state.sortBy,
-      orderBy: this.state.orderBy,
-      chunksSize: this.state.chunksSize,
-      minPrice: this.state.minPrice,
-      maxPrice: this.state.maxPrice,
-      address: this.state.findField,
-    };
-    this.props.changeFilter({
-      filter,
-      index: 0,
-    });
-  }, 1000);
+  handleSortChange = (event) => {
+    this.setState({ sortBy: event.target.value });
+  };
 
   handleClick = () => {
-    const filter = {
-      sortBy: this.state.sortBy,
-      orderBy: this.state.orderBy,
-      chunksSize: this.state.chunksSize,
-      minPrice: this.state.minPrice,
-      maxPrice: this.state.maxPrice,
-      address: this.state.findField,
-    };
-    this.props.changeFilter({
-      filter,
-      index: 0,
-    });
+    if ((this.state.orderBy && this.state.sortBy) || (!this.state.orderBy && !this.state.sortBy)) {
+      const filter = {
+        sortBy: this.state.sortBy,
+        orderBy: this.state.orderBy,
+        chunksSize: this.state.chunksSize,
+        minPrice: this.state.minPrice,
+        maxPrice: this.state.maxPrice,
+        address: this.state.findField,
+      };
+      this.props.changeFilter({
+        filter,
+        index: 0,
+      });
+    } else {
+      alert('Выберите сортировку и её порядок!');
+    }
   };
 
   findFlat = () => {
@@ -121,7 +129,7 @@ class Settings extends React.Component {
     return (
       <div className={classes.root}>
         <MuiThemeProvider theme={customTheme}>
-          <ExpansionPanel defaultExpanded>
+          <ExpansionPanel defaultExpanded={!(window.innerWidth < 700)}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <div className={classes.column}>
                 <Typography className={classes.heading}>Фильтр</Typography>
@@ -130,7 +138,7 @@ class Settings extends React.Component {
             <ExpansionPanelDetails className={classes.details}>
               <div className={classes.column}>
                 <FormControl component="fieldset1" className={classes.formControl}>
-                  <FormLabel component="legend">Сортировать по</FormLabel>
+                  <FormLabel className={classes.sortAndOrderLabels} component="legend">Сортировать по:</FormLabel>
                   <RadioGroup
                     aria-label="sorter"
                     name="sorter1"
@@ -145,7 +153,7 @@ class Settings extends React.Component {
               </div>
               <div className={classes.column}>
                 <FormControl component="fieldset2" className={classes.formControl}>
-                  <FormLabel component="legend">В порядке</FormLabel>
+                  <FormLabel className={classes.sortAndOrderLabels} component="legend">В порядке:</FormLabel>
                   <RadioGroup
                     aria-label="order"
                     name="order1"
@@ -174,7 +182,10 @@ class Settings extends React.Component {
                   step={4}
                   onChange={this.handleSliderChange}
                 />
-                <Typography variant="caption">
+                <Typography
+                  className={classes.chunksLabel}
+                  variant="caption"
+                >
                 Укажите сколько квартир будет отображаться на странице.
                 </Typography>
               </div>

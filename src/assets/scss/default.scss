@@ -55,7 +55,14 @@ body {
       right: 0;
       position: absolute;
       margin-right: 20px;
+      margin-bottom: 0;
       cursor: pointer;
+
+      @media screen and (max-width: 700px) {
+        h2 {
+          font-size: smaller;
+      }
+    }
 
       &:hover {
         color: wheat;
@@ -78,6 +85,13 @@ body {
   .registrationForm {
     @include transition(3s ease-in-out);
 
+    @media screen and (max-width: 700px) {
+     width: auto;
+     h1 {
+       font-size: x-large;
+     }
+  }
+
     .input-group-prepend {
       order: 1;
     }
@@ -99,6 +113,13 @@ body {
 
   .loginForm {
     @include transition(3s ease-in-out);
+
+    @media screen and (max-width: 700px) {
+      width: auto;
+      h1 {
+        font-size: x-large;
+      }
+    }
 
     .input-group {
       @include transition(3s ease-in-out);
@@ -138,6 +159,8 @@ body {
   }
 
 
+
+
   // cards
   .cardsContainer {
     position: relative;
@@ -153,11 +176,24 @@ body {
       min-height: 500px;
       .card {
         flex: auto;
-        width: 400px;
-        margin: 10px;
+        @media screen and (min-width: 700px) {
+          width: 400px;  
+          margin: 10px;
+        }
       }
     }
   }
+
+  .card {
+    @media screen and (max-width: 700px) {
+      width: auto;
+      margin: 10px 0;
+       img {
+         height: auto;
+       }
+     }
+  }
+
   // pagination
   .page-item.active .page-link {
     background-color: #a00e24;

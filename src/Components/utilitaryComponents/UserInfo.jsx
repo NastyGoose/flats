@@ -61,13 +61,20 @@ class UserInfo extends React.PureComponent {
         [payload.status]: false,
       });
     } else {
-      console.log(validateChange(payload.name, this.state[payload.name]));
-      this.props.changeData({
-        [payload.name]: this.state[payload.name] ? this.state[payload.name] : this.props[payload.name],
-      });
-      this.setState({
-        [payload.status]: true,
-      });
+      const validateResult = validateChange(payload.name, this.state[payload.name]);
+      if (validateResult.error === null) {
+        this.props.changeData({
+          [payload.name]: this.state[payload.name] ? this.state[payload.name] : this.props[payload.name],
+        });
+        this.setState({
+          [payload.status]: true,
+        });
+      } else {
+        alert(validateResult.error.details[0].message);
+        this.setState({
+          [payload.status]: true,
+        });
+      }
     }
   };
 
@@ -98,10 +105,10 @@ class UserInfo extends React.PureComponent {
           variant="h5"
           component="h3"
         >
-        С возвращением
+          С возвращением
           {' '}
           {name}
-        !
+          !
         </Typography>,
 
         <Paper className={classes.UserInfo} elevation={1}>
@@ -144,6 +151,7 @@ class UserInfo extends React.PureComponent {
               <div className={classes.itemWrapper}>
                 <TextField
                   label="Email"
+                  type="email"
                   value={this.Field('email')}
                   onChange={this.handleChange('email')}
                   defaultValue="loading..."

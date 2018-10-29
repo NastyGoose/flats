@@ -30,10 +30,11 @@
     "redux": "^4.0.0",
     "redux-saga": "^0.16.0",
     "reselect": "^3.0.1",
-    "prop-types": "^15.6.2"
+    "prop-types": "^15.6.2",
+    "react-responsive": "^6.0.0",
+    "react-responsive-modal": "^3.2.0"
   },
   "devDependencies": {
-    "react-scripts": "^1.1.4",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-jest": "^23.4.2",
@@ -70,7 +71,7 @@
     "jest": "^23.5.0",
     "less-loader": "^4.1.0",
     "node-sass": "^4.9.3",
-    "react-responsive-modal": "^3.2.0",
+    "react-scripts": "^1.1.4",
     "react-test-renderer": "^16.4.2",
     "regenerator-runtime": "^0.12.1",
     "sass-loader": "^7.1.0",
@@ -79,7 +80,7 @@
     "uglify-es": "^3.3.9"
   },
   "scripts": {
-    "start": "cross-env REACT_APP_FLATS_HOST=https://flats-backend.herokuapp.com react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
     "coverage": "jest --coverage && cat ./coverage/lcov.info | codacy-coverage --token= echo %CODACY_COVERAGE_TOKEN%",
@@ -99,6 +100,7 @@
       "node_modules/(?!(react-router-dom/es)/)"
     ]
   },
+  "proxy": "echo %REACT_APP_API_URL%",
   "author": "",
   "license": "ISC"
 }

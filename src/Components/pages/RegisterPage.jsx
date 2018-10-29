@@ -29,7 +29,7 @@ class RegisterPage extends PureComponent {
         this.props.signUp(user.login, user.email, user.password);
       } else { alert('Пароли не совпадают!'); }
     } else {
-      alert(validateResult.error);
+      alert(validateResult.error.details[0].message);
     }
   };
 

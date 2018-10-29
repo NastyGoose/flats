@@ -1,13 +1,13 @@
 import React from 'react';
-import PropTypes, { instanceOf } from 'prop-types';
-import { Cookies } from 'react-cookie';
+import PropTypes from 'prop-types';
+import MediaQuery from 'react-responsive';
 // material-ui stuff
 import { MuiThemeProvider, withStyles, createMuiTheme } from '@material-ui/core/styles';
 import {
-  TimelapseOutlined, Favorite, PersonPin, Help,
+  TimelapseOutlined, Favorite, PersonPin, Help, Restore,
 } from '@material-ui/icons';
 import {
-  AppBar, Tabs, Tab, Typography,
+  AppBar, Tabs, Tab, Typography, BottomNavigation, BottomNavigationAction,
 } from '@material-ui/core';
 // local imports
 import { Redirect } from 'react-router-dom';
@@ -16,7 +16,7 @@ import UserInfo from '../utilitaryComponents/UserInfo';
 import FavoriteFlats from '../utilitaryComponents/FavoriteFlats';
 import RecentlyWatchedFlats from '../utilitaryComponents/RecentFlats';
 import AboutUs from '../utilitaryComponents/AboutUs';
-// redux stuff
+
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 5 * 3 }}>
@@ -31,6 +31,26 @@ TabContainer.propTypes = {
 
 const theme = createMuiTheme({
   overrides: {
+    MuiIconButton: {
+      root: {
+        outline: 'none !important',
+      },
+    },
+    MuiBottomNavigation: {
+      root: {
+        borderBottom: '1px solid indianred',
+      },
+    },
+    MuiBottomNavigationAction: {
+      root: {
+        color: '#9c1e1e !important',
+        outline: 'none !important',
+      },
+      selected: {
+        color: 'black',
+        outline: 'none !important',
+      },
+    },
     MuiTabs: {
       flexContainer: {
         justifyContent: 'space-around',
@@ -65,27 +85,46 @@ class UserPage extends React.Component {
     return !this.props.isAuthenticated ? <Redirect to="/" />
       : (
         <MuiThemeProvider theme={theme}>
-          <div className="userNav">
-            <AppBar position="static" color="default">
-              <Tabs
+          <MediaQuery query="(min-device-width: 700px)">
+            <div className="userNav">
+              <AppBar position="static" color="default">
+                <Tabs
+                  value={value}
+                  onChange={this.handleChange}
+                  scrollable
+                  scrollButtons="on"
+                  indicatorColor="primary"
+                  textColor="primary"
+                >
+                  <Tab label="О вас" icon={<PersonPin />} />
+                  <Tab label="Понравивишиеся квартиры" icon={<Favorite />} />
+                  <Tab label="Просмотренные недавно квартиры" icon={<TimelapseOutlined />} />
+                  <Tab label="О нас" icon={<Help />} />
+                </Tabs>
+              </AppBar>
+              {value === 0 && <TabContainer><UserInfo /></TabContainer>}
+              {value === 1 && <TabContainer><FavoriteFlats /></TabContainer>}
+              {value === 2 && <TabContainer><RecentlyWatchedFlats /></TabContainer>}
+              {value === 3 && <TabContainer><AboutUs /></TabContainer>}
+            </div>
+          </MediaQuery>
+          <MediaQuery query="(max-device-width: 700px)">
+            <div className="mobileUserNav">
+              <BottomNavigation
                 value={value}
                 onChange={this.handleChange}
-                scrollable
-                scrollButtons="on"
-                indicatorColor="primary"
-                textColor="primary"
               >
-                <Tab label="О вас" icon={<PersonPin />} />
-                <Tab label="Понравивишиеся квартиры" icon={<Favorite />} />
-                <Tab label="Просмотренные недавно квартиры" icon={<TimelapseOutlined />} />
-                <Tab label="О нас" icon={<Help />} />
-              </Tabs>
-            </AppBar>
-            {value === 0 && <TabContainer><UserInfo /></TabContainer>}
-            {value === 1 && <TabContainer><FavoriteFlats /></TabContainer>}
-            {value === 2 && <TabContainer><RecentlyWatchedFlats /></TabContainer>}
-            {value === 3 && <TabContainer><AboutUs /></TabContainer>}
-          </div>
+                <BottomNavigationAction label="Your stats" icon={<PersonPin />} />
+                <BottomNavigationAction label="Recents" icon={<Restore />} />
+                <BottomNavigationAction label="Favorites" icon={<Favorite />} />
+                <BottomNavigationAction label="About us" icon={<Help />} />
+              </BottomNavigation>
+              {value === 0 && <TabContainer><UserInfo /></TabContainer>}
+              {value === 1 && <TabContainer><FavoriteFlats /></TabContainer>}
+              {value === 2 && <TabContainer><RecentlyWatchedFlats /></TabContainer>}
+              {value === 3 && <TabContainer><AboutUs /></TabContainer>}
+            </div>
+          </MediaQuery>
         </MuiThemeProvider>
       );
   }
@@ -98,7 +137,6 @@ function mapStateToProps(state) {
 }
 
 UserPage.propTypes = {
-  cookies: instanceOf(Cookies).isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
 };
 

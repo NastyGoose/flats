@@ -3,7 +3,7 @@ import { PAGE_INDEX, CHANGE_FILTER_VALUES, CHANGE_MODAL_STATE } from '../constan
 const initialState = {
   pageIndex: 0,
   sortBy: 'Price',
-  orderBy: '-1',
+  orderBy: 'desc',
   chunksSize: 20,
   minPrice: 0,
   maxPrice: 999,

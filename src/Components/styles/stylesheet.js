@@ -14,6 +14,11 @@ export const userInfo = theme => ({
     display: 'flex',
     flexDirection: 'column',
     flexWrap: 'wrap',
+    '@media screen and (max-width: 700px)': {
+      borderBottom: '2px solid #9e1b1b',
+      paddingBottom: '10px',
+      marginBottom: '10px',
+    },
   },
   textField: {
     width: 'fit-content',
@@ -39,9 +44,14 @@ export const userInfo = theme => ({
     display: 'flex',
     padding: '30px',
     justifyContent: 'space-evenly',
+    '@media screen and (max-width: 700px)': {
+      flexDirection: 'column',
+    },
   },
   statistics: {
-    margin: 'auto',
+    '@media screen and (min-width: 700px)': {
+      margin: 'auto',
+    },
   },
   identifiers: {
     display: 'flex',
@@ -51,6 +61,17 @@ export const userInfo = theme => ({
 });
 
 export const settingsStyles = theme => ({
+  sortAndOrderLabels: {
+    '@media screen and (max-width: 700px)': {
+      textAlign: 'center',
+    },
+  },
+  chunksLabel: {
+    '@media screen and (max-width: 700px)': {
+      textAlign: 'center',
+      padding: '20px',
+    },
+  },
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
@@ -59,6 +80,10 @@ export const settingsStyles = theme => ({
   prices: {
     display: 'flex',
     justifyContent: 'space-around',
+    '@media screen and (max-width: 700px)': {
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
   },
   button: {
     margin: theme.spacing.unit,
@@ -86,13 +111,21 @@ export const settingsStyles = theme => ({
   },
   details: {
     alignItems: 'center',
+    '@media screen and (max-width: 700px)': {
+      flexDirection: 'column',
+    },
   },
   column: {
     flexBasis: '33.33%',
   },
   helper: {
-    borderLeft: `2px solid ${theme.palette.divider}`,
+    '@media screen and (min-width: 700px)': {
+      borderLeft: `2px solid ${theme.palette.divider}`,
+    },
     padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
+    '@media screen and (max-width: 700px)': {
+      borderTop: `2px solid ${theme.palette.divider}`,
+    },
   },
   link: {
     color: theme.palette.primary.main,

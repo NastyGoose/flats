@@ -9,6 +9,11 @@ import {
 import connect from 'react-redux/es/connect/connect';
 
 const CustomTableCell = withStyles(theme => ({
+  root: {
+    '@media screen and (max-width: 700px)': {
+      padding: '4px 4px 4px 24px',
+    },
+  },
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
@@ -26,6 +31,9 @@ const styles = theme => ({
   },
   table: {
     minWidth: 700,
+    '@media screen and (max-width: 700px)': {
+      minWidth: 'auto',
+    },
   },
   row: {
     '&:nth-of-type(odd)': {
@@ -55,13 +63,14 @@ const rows = props => [
 function CustomizedTable(props) {
   const { classes } = props;
   return (
-    [<Typography
-      align="center"
-      variant="h2"
-      component="h3"
-    >
+    [
+      <Typography
+        align="center"
+        variant="h2"
+        component="h3"
+      >
       Взгляните на свою статистику!
-     </Typography>,
+      </Typography>,
 
       <Paper className={classes.root}>
         <Table className={classes.table}>
