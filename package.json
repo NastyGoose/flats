@@ -100,7 +100,7 @@
       "node_modules/(?!(react-router-dom/es)/)"
     ]
   },
-  "proxy": "echo %REACT_APP_API_URL%",
+  "proxy": "https://flats-backend.herokuapp.com",
   "author": "",
   "license": "ISC"
 }
