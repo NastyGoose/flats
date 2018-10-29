@@ -2,11 +2,11 @@ import { PAGE_INDEX, CHANGE_FILTER_VALUES, CHANGE_MODAL_STATE } from '../constan
 
 const initialState = {
   pageIndex: 0,
-  sortBy: 'Price',
-  orderBy: 'desc',
+  sortBy: undefined,
+  orderBy: undefined,
   chunksSize: 20,
   minPrice: 0,
-  maxPrice: 999,
+  maxPrice: 1000,
   address: '',
   modalState: false,
 };

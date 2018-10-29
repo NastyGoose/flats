@@ -58,7 +58,7 @@ class Settings extends React.Component {
     chunksSize: 20,
     findField: '',
     minPrice: 0,
-    maxPrice: 999,
+    maxPrice: 1000,
   };
 
   handleFindChange = lodash.debounce((text) => {
