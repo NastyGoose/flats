@@ -105,6 +105,7 @@ export default class API {
   })
     .then((response) => {
       console.log(response);
+      if (!response.data.success) alert('Пользователь уже существует!');
       return response.data.success;
     })
     .catch((error) => {
@@ -126,6 +127,7 @@ export default class API {
     return axios.get(url)
       .then((response) => {
         console.log(response);
+        if (!response.data.success) alert('Неверный пароль!');
         return response;
       })
       .catch(err => console.log(err));

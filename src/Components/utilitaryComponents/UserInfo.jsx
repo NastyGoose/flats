@@ -21,7 +21,7 @@ class UserInfo extends React.PureComponent {
   state = {
     login: '',
     email: '',
-    password: 'new password',
+    password: '',
     loginStatus: true,
     emailStatus: true,
     passwordStatus: true,
@@ -175,8 +175,8 @@ class UserInfo extends React.PureComponent {
               <div className={classes.itemWrapper}>
                 <TextField
                   label="Пароль"
-                  type={this.props.passwordValid ? 'text' : 'password'}
-                  value={this.Field('password')}
+                  type={this.props.passwordValid && !this.state.passwordStatus ? 'text' : 'password'}
+                  value={this.props.passwordValid ? this.state.password : '12345678'}
                   defaultValue="loading..."
                   onChange={this.handleChange('password')}
                   className={classes.textField}

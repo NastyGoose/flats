@@ -72,7 +72,7 @@ class Cards extends React.Component {
         <h1 style={{ margin: 'auto' }} align="center">{this.props.flats}</h1>);
     }
     return this.props.flats.map(curr => (
-      <Card key={curr.id}>
+      <Card key={curr._id}>
         <CardImg
           top
           height="400px"
