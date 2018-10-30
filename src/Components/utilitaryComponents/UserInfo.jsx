@@ -19,13 +19,20 @@ import { validateChange } from '../utilitaryLogic/passwordValidation';
 
 class UserInfo extends React.PureComponent {
   state = {
-    login: '',
-    email: '',
+    login: undefined,
+    email: undefined,
     password: '',
     loginStatus: true,
     emailStatus: true,
     passwordStatus: true,
   };
+
+  componentWillMount() {
+    this.setState({
+      login: this.props.login,
+      email: this.props.email,
+    })
+  }
 
   handlePasswordChange = () => {
     if (this.props.passwordValid) {
@@ -84,13 +91,6 @@ class UserInfo extends React.PureComponent {
     });
   };
 
-  Field(fieldName) {
-    if (!this.state[fieldName]) {
-      return this.props[fieldName];
-    }
-    return this.state[fieldName];
-  }
-
   render() {
     const { classes } = this.props;
     const name = <text style={{ color: 'indianred' }}>{this.props.login}</text>;
@@ -129,7 +129,7 @@ class UserInfo extends React.PureComponent {
                 <TextField
                   label="Логин"
                   className={classes.textField}
-                  value={this.Field('login')}
+                  value={this.state.login}
                   defaultValue="loading..."
                   onChange={this.handleChange('login')}
                   margin="normal"
@@ -152,7 +152,7 @@ class UserInfo extends React.PureComponent {
                 <TextField
                   label="Email"
                   type="email"
-                  value={this.Field('email')}
+                  value={this.state.email}
                   onChange={this.handleChange('email')}
                   defaultValue="loading..."
                   className={classes.textField}
