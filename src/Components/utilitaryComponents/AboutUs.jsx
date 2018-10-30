@@ -21,9 +21,12 @@ function PaperSheet(props) {
         <Typography align="center" variant="h5" component="h3">
           Добро пожаловать!
         </Typography>
-        <Typography component="p">
+        <br />
+        <Typography align="center" variant="subheading" component="h3">
           Этот сервис создан при помощи React, Express, Mongo и Node.js.
-          Суть приложения заключается в парсинге данных с других сайтов по сьему жилья и обработки этой информации.
+          Суть приложения заключается в парсинге данных с других сайтов по сьему жилья и обработке этой информации.
+          <br />
+        (:
         </Typography>
       </Paper>
     </div>

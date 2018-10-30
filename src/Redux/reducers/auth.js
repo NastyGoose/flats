@@ -19,11 +19,13 @@ export default (state = initialState, action = {}) => {
         passwordValid: action.payload.data.success,
       };
     case SET_CURRENT_USER_SUCCEEDED:
+      console.log(action);
       return {
         ...state,
         isAuthenticated: !lodash.isEmpty(action.payload.decodedToken),
         user: action.payload.decodedToken,
         favoriteFlats: action.payload.favoriteFlats,
+        daysSinceSignUp: action.payload.daysSinceSignUp,
       };
     case SUCCESSFULLY_CHANGED_DATA:
       return {

@@ -67,9 +67,9 @@ export default class API {
       });
   };
 
-  static getFavoriteFlats = () => {
+  static getAdditionalData = () => {
     const { email } = jwt.decode(localStorage.jwtToken);
-    return axios.get(`${host}/api/database/getFavorite/${email}`)
+    return axios.get(`${host}/api/database/getAddData/${email}`)
       .then((res) => {
         console.log(res);
         return res;
@@ -77,8 +77,6 @@ export default class API {
   };
 
   static signIn = (email, password) => {
-    console.log('email: ', email);
-    console.log('password: ', password);
     return axios.post(`${host}/api/account/signin`, {
       email,
       password,

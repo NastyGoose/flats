@@ -8,12 +8,13 @@ import API from '../../Components/API/API';
 export function* setCurrentUserAsync(action) {
   console.log(action);
   try {
-    const favFlats = yield call(API.getFavoriteFlats);
+    const addData = yield call(API.getAdditionalData);
     yield put({
       type: SET_CURRENT_USER_SUCCEEDED,
       payload: {
         decodedToken: action.payload,
-        favoriteFlats: favFlats.data.payload,
+        favoriteFlats: addData.data.payload,
+        daysSinceSignUp: addData.data.daysSinceSignUp,
       },
     });
   } catch (error) {
@@ -33,12 +34,13 @@ export function* changeDataAsync(action) {
 export function* signInAsync(action) {
   try {
     const payload = yield call(API.signIn, action.payload.email, action.payload.password);
-    const favoriteFlats = yield call(API.getFavoriteFlats);
+    const addData = yield call(API.getAdditionalData);
     yield put({
       type: SET_CURRENT_USER_SUCCEEDED,
       payload: {
         decodedToken: payload.token,
-        favoriteFlats: favoriteFlats.data.payload,
+        favoriteFlats: addData.data.payload,
+        daysSinceSignUp: addData.data.daysSinceSignUp,
       },
     });
   } catch (error) {
@@ -47,21 +49,22 @@ export function* signInAsync(action) {
 }
 
 export function* signUpAsync(action) {
+  console.log(action);
   try {
     const response = yield call(API.signUp, action.payload.email, action.payload.login, action.payload.password);
     if (response) {
       const payload = yield call(API.signIn, action.payload.email, action.payload.password);
-      const favoriteFlats = yield call(API.getFavoriteFlats);
+      const addData = yield call(API.getAdditionalData);
       yield put({
         type: SET_CURRENT_USER_SUCCEEDED,
         payload: {
           decodedToken: payload.token,
-          favoriteFlats: favoriteFlats.data,
+          favoriteFlats: addData.data.payload,
+          daysSinceSignUp: addData.data.daysSinceSignUp,
         },
       });
     }
   } catch (error) {
-    console.log(error);
     yield console.log(error);
   }
 }
@@ -71,17 +74,16 @@ export function* logoutAsync() {
     yield call(API.logout);
     yield put({ type: LOGOUT_SUCCEEDED });
   } catch (error) {
-    yield console.log(error);
+    console.log(error);
   }
 }
 
 export function* checkPasswordAsync(action) {
   try {
-    console.log(action);
     const response = yield call(API.checkPassword, action.payload.email, action.payload.password);
     yield put({ type: PASSWORD_CHECKED, payload: response });
   } catch (error) {
-    yield console.log(error);
+    console.log(error);
   }
 }
 

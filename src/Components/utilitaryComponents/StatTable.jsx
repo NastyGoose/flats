@@ -56,7 +56,7 @@ const rows = props => [
   {
     id: 2,
     name: 'Дней с момента регистрации',
-    value: 'in progress..',
+    value: props.daysSinceSignUp,
   },
 ];
 
@@ -100,6 +100,7 @@ function mapStateToProps(state, ownProps) {
   return {
     cookies: ownProps.cookies,
     favoriteFlats: state.auth.favoriteFlats,
+    daysSinceSignUp: state.auth.daysSinceSignUp,
   };
 }
 
