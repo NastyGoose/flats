@@ -127,7 +127,7 @@ class UserInfo extends React.PureComponent {
             >
               <div className={classes.itemWrapper}>
                 <TextField
-                  label="Login"
+                  label="Логин"
                   className={classes.textField}
                   value={this.Field('login')}
                   defaultValue="loading..."
@@ -174,7 +174,7 @@ class UserInfo extends React.PureComponent {
               </div>
               <div className={classes.itemWrapper}>
                 <TextField
-                  label="Password"
+                  label="Пароль"
                   type={this.props.passwordValid ? 'text' : 'password'}
                   value={this.Field('password')}
                   defaultValue="loading..."

@@ -34,7 +34,7 @@ class LoginPage extends PureComponent {
               <Input
                 name="email"
                 type="email"
-                placeholder="type your email here"
+                placeholder="Введите ваш email сюда"
               />
             </InputGroup>
             <br />
@@ -43,7 +43,7 @@ class LoginPage extends PureComponent {
               <Input
                 name="password"
                 type="password"
-                placeholder="still remember it, huh?"
+                placeholder="Надеюсь еще не забыли c:"
               />
             </InputGroup>
             <br />
